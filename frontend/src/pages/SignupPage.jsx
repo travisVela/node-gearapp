@@ -9,17 +9,19 @@ import {
   MessageSquare,
   User,
 } from "lucide-react";
-import {api} from "../api"
+// import {api} from "../api"
+import {useUserStore} from "../stores/useUserStore.js";
 
 
 
 const SignupPage = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const {signup} = api()
+    const {signup} = useUserStore()
 
     const [formData, setFormData] = useState({
         email: "",
         password: "",
+        confirmPassword: "",
         username: "",
         firstname: "",
         lastname: "",
@@ -33,6 +35,7 @@ const SignupPage = () => {
         if (!/\S+@\S+\.\S+/.test(formData.email))
             return toast.error("Invalid email format");
         if (!formData.password) return toast.error("Password is required");
+        if (!formData.confirmPassword) return toast.error("Password is required");
         if (formData.password.length < 6)
             return toast.error("Password must be al least 6 characters");
 
@@ -41,9 +44,11 @@ const SignupPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        console.log(formData)
 
         const success = validateForm()
         if (success === true) signup(formData)
+        setFormData(null)
     }
 
     return (
@@ -76,20 +81,41 @@ const SignupPage = () => {
                             type={showPassword ? "text" : "password"}
                             value={formData.password}
                             onChange={(e) => setFormData({...formData, password: e.target.value})}
-                            placeholder="*******"
+                            placeholder="password"
                             className="input border border-gray-500  rounded-2xl w-full p-2 m-2 focus:border-sky-500 focus:ring-0 focus:outline-none"
                         />
-                        <button
-                            type="button"
-                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? (
-                                <EyeOff className="size-5 text-base-content/40"></EyeOff>
-                            ) : (
-                                <Eye className="size-5 text-base-content/40"></Eye>
-                            )}
-                        </button>
+
+                        {/*<button*/}
+                        {/*    type="button"*/}
+                        {/*    className="absolute inset-y-0 right-0 pr-3 flex items-center"*/}
+                        {/*    onClick={() => setShowPassword(!showPassword)}*/}
+                        {/*>*/}
+                        {/*    {showPassword ? (*/}
+                        {/*        <EyeOff className="size-5 text-base-content/40"></EyeOff>*/}
+                        {/*    ) : (*/}
+                        {/*        <Eye className="size-5 text-base-content/40"></Eye>*/}
+                        {/*    )}*/}
+                        {/*</button>*/}
+                    </div>
+                    <div>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            value={formData.confirmPassword}
+                            onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                            placeholder="confirm password"
+                            className="input border border-gray-500  rounded-2xl w-full p-2 m-2 focus:border-sky-500 focus:ring-0 focus:outline-none"
+                        />
+                        {/*<button*/}
+                        {/*    type="button"*/}
+                        {/*    className="absolute inset-y-0 right-0 pr-3 flex items-center"*/}
+                        {/*    onClick={() => setShowPassword(!showPassword)}*/}
+                        {/*>*/}
+                        {/*    {showPassword ? (*/}
+                        {/*        <EyeOff className="size-5 text-base-content/40"></EyeOff>*/}
+                        {/*    ) : (*/}
+                        {/*        <Eye className="size-5 text-base-content/40"></Eye>*/}
+                        {/*    )}*/}
+                        {/*</button>*/}
                     </div>
                 </div>
                 {/*<div className={"flex flex-col w-50"}>*/}

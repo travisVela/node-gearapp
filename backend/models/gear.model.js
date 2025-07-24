@@ -17,6 +17,9 @@ const gearSchema = new mongoose.Schema(
 		year: {
 			type: Number,
 		},
+		serial_number: {
+			type: String
+		},
 		description: {
 			type: String,
 		},

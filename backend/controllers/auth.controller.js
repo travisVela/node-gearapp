@@ -38,14 +38,16 @@ const setCookies = (res, accessToken, refreshToken) => {
 };
 
 export const signup = async (req, res) => {
-	const { email, password, name } = req.body;
+
+	const { email, username, password, firstname, lastname, bio } = req.body;
 	try {
 		const userExists = await User.findOne({ email });
+		console.log(userExists)
 
 		if (userExists) {
 			return res.status(400).json({ message: "User already exists" });
 		}
-		const user = await User.create({ name, email, password });
+		const user = await User.create({ username, email, password, firstname, lastname, bio });
 
 		// authenticate
 		const { accessToken, refreshToken } = generateTokens(user._id);
@@ -55,9 +57,10 @@ export const signup = async (req, res) => {
 
 		res.status(201).json({
 			_id: user._id,
-			name: user.name,
+			username: user.username,
 			email: user.email,
 			role: user.role,
+
 		});
 	} catch (error) {
 		console.log("Error in signup controller", error.message);

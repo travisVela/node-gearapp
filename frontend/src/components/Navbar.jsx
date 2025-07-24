@@ -1,9 +1,10 @@
-import {api} from "../api";
+
 import {Link} from "react-router-dom";
 import {LogOut, MessageSquare, Settings, User} from "lucide-react";
+import {useUserStore} from "../stores/useUserStore.js";
 
 const Navbar = () => {
-    const {logout} = api()
+    const {logout} = useUserStore()
 
     return (
 

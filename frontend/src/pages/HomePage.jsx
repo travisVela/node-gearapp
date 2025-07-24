@@ -5,9 +5,10 @@ import AddGearForm from "../components/AddGearForm.jsx";
 import Dialog from "../components/Dialog.jsx";
 import {api} from "../api"
 import EditFormDialog from "../components/EditFormDialog.jsx";
+import {useGearStore} from "../stores/useGearStore.js";
 
 const HomePage = () => {
-    const {get_gear, save_new_gear, userGear, authUser, delete_gear} = api()
+    const {getGear, gear, addGear} = useGearStore()
     const [dialogContent, setDialogContent] = useState(null)
     const ref = useRef(null)
 
@@ -26,8 +27,9 @@ const HomePage = () => {
 
 
     useEffect(() => {
-        get_gear()
-    }, [get_gear]);
+
+        getGear()
+    }, [getGear]);
 
     function toggleDialog(item) {
         if (!ref) {
@@ -43,7 +45,7 @@ const HomePage = () => {
 
         setIsOpen(!isOpen)
         setFormData(item)
-        get_gear()
+        // get_gear()
 
     };
 
@@ -55,22 +57,22 @@ const HomePage = () => {
 
     // API ENDPOINTS
 
-    const addGear = async (type, brand, model, serial_number, year, description) => {
-        try {
-            await save_new_gear({
-                type: type,
-                brand: brand,
-                model: model,
-                serial_number: serial_number,
-                year: year,
-                description: description
-            });
-            // Refresh
-            get_gear()
-        } catch (error) {
-            console.error("Error adding gear", error);
-        }
-    };
+    // const addGear = async (type, brand, model, serial_number, year, description) => {
+    //     try {
+    //         await save_new_gear({
+    //             type: type,
+    //             brand: brand,
+    //             model: model,
+    //             serial_number: serial_number,
+    //             year: year,
+    //             description: description
+    //         });
+    //         // Refresh
+    //         get_gear()
+    //     } catch (error) {
+    //         console.error("Error adding gear", error);
+    //     }
+    // };
 
     return (
         <div className={"flex flex-col w-full"}>
@@ -81,7 +83,7 @@ const HomePage = () => {
                 <div className="flex flex-row items-center w-full justify-center h-3/4">
 
                     {/*inventory column*/}
-                    {userGear > 0 ? <h1 className={"animate-pulse"}>...</h1> :
+                    {gear > 0 ? <h1 className={"animate-pulse"}>...</h1> :
                         <div className="container w-full flex flex-col items-center justify-start p-8 h-lvh overflow-y-scroll">
                             <h2 className="p-2 text-2xl">Gear List</h2>
                             <div className={"w-full"}>
@@ -97,7 +99,7 @@ const HomePage = () => {
                                 <div>
                                     <div
                                         className="flex flex-col  border-b border-b-sky-500  items-start justify-start w-full gap-10 space-x-3">
-                                        {userGear?.map((item, rowIndex) => (
+                                        {gear?.map((item, rowIndex) => (
                                             <div
                                                 className={`flex flex-row border-b border-b-slate-500 items-start justify-start w-full gap-10 space-x-3`}
                                                 key={`row-${rowIndex}`}

@@ -22,10 +22,11 @@ export const getGear = async (req, res) => {
 export const addGear = async (req, res) => {
 
     try {
+        console.log(req.body)
         const owner_id = req.user.id
-        const {type, brand, model, year, description} = req.body
+        const {type, brand, model, year, description, serial_number} = req.body
         const add = await Gear.create({
-            type, brand, model, year, description, owner_id
+            type, brand, model, year, description, serial_number, owner_id
         })
 
         res.status(201).json({add});
