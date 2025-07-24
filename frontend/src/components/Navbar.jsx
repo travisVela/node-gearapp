@@ -6,8 +6,12 @@ import {useUserStore} from "../stores/useUserStore.js";
 const Navbar = () => {
     const {logout} = useUserStore()
 
-    return (
+    const handleLogout = () => {
+        console.log("logout")
+        logout()
+    }
 
+    return (
 
         <nav className="bg-white border-gray-200 dark:bg-gray-900">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -33,7 +37,7 @@ const Navbar = () => {
                             </Link>
                         </li>
                         <li>
-                            <button className="flex gap-2 items-center" onClick={logout}>
+                            <button className="flex gap-2 items-center" onClick={handleLogout}>
                                 <LogOut className="size-5">
                                     <span className="hidden sm:inline">Logout</span>
                                 </LogOut>
@@ -51,3 +55,5 @@ const Navbar = () => {
     )
 }
 export default Navbar
+
+

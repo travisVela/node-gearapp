@@ -65,7 +65,7 @@ const AddGearForm = () => {
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.8}}
             >
-                <h2 className='mt-6 text-center text-2xl font-extrabold '>Add gear</h2>
+                <h2 className='mt-6 text-center text-2xl font-extrabold text-emerald-400'>Add gear</h2>
             </motion.div>
 
             <motion.div
