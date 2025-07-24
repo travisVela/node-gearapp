@@ -18,11 +18,9 @@ export const getGear = async (req, res) => {
 		res.status(500).json({ message: error.message });
     }
 }
-
 export const addGear = async (req, res) => {
 
     try {
-        console.log(req.body)
         const owner_id = req.user.id
         const {type, brand, model, year, description, serial_number} = req.body
         const add = await Gear.create({
@@ -36,12 +34,9 @@ export const addGear = async (req, res) => {
 		res.status(500).json({ message: error.message });
     }
 }
-
 export const updateGear = async (req, res) => {
     try {
         const update_info = req.body
-
-
         const gear_to_update = await Gear.findById(req.params.id)
 
          if (!req.user) {

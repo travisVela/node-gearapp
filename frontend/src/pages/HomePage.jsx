@@ -3,12 +3,11 @@ import {Pencil, Trash} from "lucide-react";
 
 import AddGearForm from "../components/AddGearForm.jsx";
 import Dialog from "../components/Dialog.jsx";
-import {api} from "../api"
 import EditFormDialog from "../components/EditFormDialog.jsx";
 import {useGearStore} from "../stores/useGearStore.js";
 
 const HomePage = () => {
-    const {getGear, gear, addGear} = useGearStore()
+    const {getGear, gear, deleteGear} = useGearStore()
     const [dialogContent, setDialogContent] = useState(null)
     const ref = useRef(null)
 
@@ -24,12 +23,10 @@ const HomePage = () => {
         {header: 'Year', accessor: 'year'},
         {header: 'Description', accessor: 'description'},
     ];
-
-
     useEffect(() => {
-
         getGear()
-    }, [getGear]);
+
+    }, [getGear, gear]);
 
     function toggleDialog(item) {
         if (!ref) {
@@ -50,29 +47,26 @@ const HomePage = () => {
     };
 
     const handleDelete = (item) => {
-        delete_gear(item.id)
-        get_gear()
+       try {
+           deleteGear(item._id)
+
+       } catch (error) {
+            console.error("Error deleteing gear", error);
+       }
+       getGear()
     }
 
 
     // API ENDPOINTS
 
-    // const addGear = async (type, brand, model, serial_number, year, description) => {
-    //     try {
-    //         await save_new_gear({
-    //             type: type,
-    //             brand: brand,
-    //             model: model,
-    //             serial_number: serial_number,
-    //             year: year,
-    //             description: description
-    //         });
-    //         // Refresh
-    //         get_gear()
-    //     } catch (error) {
-    //         console.error("Error adding gear", error);
-    //     }
-    // };
+    const handleAddGear = async () => {
+        try {
+            getGear()
+
+        } catch (error) {
+            console.error("Error adding gear", error);
+        }
+    };
 
     return (
         <div className={"flex flex-col w-full"}>
@@ -140,8 +134,8 @@ const HomePage = () => {
                 </div>
                 {/*form column*/}
                 <div className="container h-lvh flex flex-col flex-6/8 justify-center items-center">
-                    <h2 className="text-3xl ">Add gear here.</h2>
-                    <AddGearForm addGear={addGear}/>
+
+                    <AddGearForm addGear={handleAddGear}/>
                 </div>
                 <Dialog toggleDialog={toggleDialog} ref={ref}>
                     {dialogContent}

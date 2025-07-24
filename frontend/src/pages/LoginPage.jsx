@@ -116,6 +116,12 @@ const LoginPage = () => {
                     </p>
                 </div>
             </motion.div>
+            <p className='mt-8 text-center text-sm text-gray-400'>
+                        Not a member?{" "}
+                        <Link to='/signup' className='font-medium text-emerald-400 hover:text-emerald-300'>
+                            Sign up now <ArrowRight className='inline h-4 w-4'/>
+                        </Link>
+                    </p>
         </div>
         // <div className={"flex flex-col h-screen justify-center items-center"}>
         // <form className="my-4  flex flex-col justify-center items-center" onSubmit={handleSubmit}>

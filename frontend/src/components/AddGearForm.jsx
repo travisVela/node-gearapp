@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import Select from 'react-select'
 import {motion} from "framer-motion";
 import {ArrowRight, Loader, Lock, LogIn, Mail} from "lucide-react";
 import {Link} from "react-router-dom";
 import {useGearStore} from "../stores/useGearStore.js";
+
 
 
 const AddGearForm = () => {
@@ -14,7 +15,12 @@ const AddGearForm = () => {
     const [serial_number, setSerial] = useState("")
     const [year, setYear] = useState("")
     const [description, setDescription] = useState("")
-    const {loading, addGear, getGear} = useGearStore()
+    const [loading, setIsLoading] = useState(false)
+    const { addGear} = useGearStore()
+    // console.log(loading)
+    useEffect(() =>{
+
+    }, [])
 
 
 
@@ -46,7 +52,7 @@ const AddGearForm = () => {
             setYear("")
             setDescription("")
         }
-        getGear()
+
 
     }
 
@@ -59,7 +65,7 @@ const AddGearForm = () => {
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.8}}
             >
-                <h2 className='mt-6 text-center text-3xl font-extrabold text-emerald-400'>Create your account</h2>
+                <h2 className='mt-6 text-center text-2xl font-extrabold '>Add gear</h2>
             </motion.div>
 
             <motion.div
@@ -88,7 +94,7 @@ const AddGearForm = () => {
 									rounded-md shadow-sm
 									 placeholder-gray-400 focus:outline-none focus:ring-emerald-500
 									 focus:border-emerald-500 sm:text-sm'
-                                    placeholder='type of intsrument'
+                                    placeholder='type of gear'
                                 />
                             </div>
                         </div>
@@ -212,18 +218,13 @@ const AddGearForm = () => {
                             ) : (
                                 <>
                                     <LogIn className='mr-2 h-5 w-5' aria-hidden='true'/>
-                                    Login
+                                    Add Gear
                                 </>
                             )}
                         </button>
                     </form>
 
-                    <p className='mt-8 text-center text-sm text-gray-400'>
-                        Not a member?{" "}
-                        <Link to='/signup' className='font-medium text-emerald-400 hover:text-emerald-300'>
-                            Sign up now <ArrowRight className='inline h-4 w-4'/>
-                        </Link>
-                    </p>
+
                 </div>
             </motion.div>
         </div>

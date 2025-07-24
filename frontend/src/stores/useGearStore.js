@@ -7,6 +7,7 @@ export const useGearStore = create((set, get) => ({
     gear: [],
     loading: false,
     checkingAuth: false,
+    setIsloading: null,
 
     getGear: async () => {
         set({loading: true})
@@ -21,7 +22,7 @@ export const useGearStore = create((set, get) => ({
         }
     },
     addGear: async (type, brand, model, serial_number, year, description) => {
-        console.log(type, brand, model, serial_number, year, description)
+
         set({loading: true})
         try{
             const res = await axiosInstance.post("/add-gear", {type, brand, model, serial_number, year, description})
@@ -32,6 +33,20 @@ export const useGearStore = create((set, get) => ({
             toast.error(error?.response?.data?.message || "error adding gear")
         }
 
+    },
+    deleteGear: async (id) => {
+        set({loading: true})
+        try {
+
+            const res = await axiosInstance.delete(`/delete-gear/${id}`)
+            console.log(res)
+            toast.success("Item deleted")
+            set({loading: false})
+        } catch (error) {
+            set({loading: false})
+            console.log(error?.response)
+            toast.error(error?.response?.data?.message || "error deleting gear")
+        }
     }
 
 
