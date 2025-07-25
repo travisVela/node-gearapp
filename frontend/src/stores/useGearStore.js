@@ -47,7 +47,18 @@ export const useGearStore = create((set, get) => ({
             console.log(error?.response)
             toast.error(error?.response?.data?.message || "error deleting gear")
         }
+    },
+    updateGear: async (data) => {
+        set({loading: true})
+        try {
+
+            const res = await axiosInstance.put("/update-gear", data)
+            toast.success(res.data?.message || "update")
+            set({loading: false})
+        } catch (error) {
+            set({loading: false})
+            console.log(error?.response)
+            toast.error(error?.response?.data?.message || "error deleting gear")
+        }
     }
-
-
 }))

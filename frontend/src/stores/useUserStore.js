@@ -37,6 +37,9 @@ export const useUserStore = create((set, get) => ({
             toast.error(error.response.data.message || "error logging in")
         }
     },
+    editProfile: async (data) => {
+        console.log(data)
+    },
     checkAuth: async () => {
         set({checkingAuth: true})
         try {

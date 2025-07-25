@@ -10,6 +10,7 @@ const HomePage = () => {
     const {getGear, gear, deleteGear} = useGearStore()
     const [dialogContent, setDialogContent] = useState(null)
     const ref = useRef(null)
+    const editGearRef = useRef(null)
 
 
     const [isOpen, setIsOpen] = useState(false);
@@ -39,21 +40,21 @@ const HomePage = () => {
     }
 
     const handleToggleEditDialog = (item) => {
-
         setIsOpen(!isOpen)
         setFormData(item)
-        // get_gear()
 
+        editGearRef.current.hasAttribute("open")
+            ? editGearRef.current.close()
+            : editGearRef.current.showModal()
     };
 
     const handleDelete = (item) => {
-       try {
-           deleteGear(item._id)
-
-       } catch (error) {
+        try {
+            deleteGear(item._id)
+        } catch (error) {
             console.error("Error deleteing gear", error);
-       }
-       getGear()
+        }
+        getGear()
     }
 
 
@@ -78,7 +79,8 @@ const HomePage = () => {
 
                     {/*inventory column*/}
                     {gear > 0 ? <h1 className={"animate-pulse"}>...</h1> :
-                        <div className="container w-full flex flex-col items-center justify-start p-8 h-lvh overflow-y-scroll">
+                        <div
+                            className="container w-full flex flex-col items-center justify-start p-8 h-lvh overflow-y-scroll">
                             <h2 className="p-2 text-2xl">Gear List</h2>
                             <div className={"w-full"}>
                                 <div>
@@ -104,16 +106,18 @@ const HomePage = () => {
                                                         onClick={column.accessor === 'description' ? () => toggleDialog(item.description) : undefined}
                                                         className={`py-2 flex flex-col w-full ${column.accessor === "description" ? "max-h-20 overflow-hidden overflow-ellipsis text-nowrap hover:cursor-pointer text-sky-500 hover:text-sky-700  min-w-24 underline " : ""}`}
                                                         key={`cell-${rowIndex}-${colIndex}`}>
-                                                            {column.accessor === "description" ? "description" : item[column.accessor]}
+                                                        {column.accessor === "description" ? "description" : item[column.accessor]}
                                                     </div>
 
                                                 ))}
                                                 <div className={"flex flex-row justify-center items-center"}>
-                                                    <button onClick={() => handleToggleEditDialog(item)}><Pencil/></button>
+                                                    <button onClick={() => handleToggleEditDialog(item)}><Pencil/>
+                                                    </button>
                                                     {isOpen && (
                                                         <EditFormDialog
                                                             onClose={handleToggleEditDialog}
                                                             initialData={formData}
+                                                            ref={editGearRef}
                                                         />
                                                     )}
                                                     <div>
@@ -134,9 +138,9 @@ const HomePage = () => {
                 </div>
                 {/*form column*/}
                 <div className="container h-lvh flex flex-col flex-6/8 justify-center items-center">
-
                     <AddGearForm addGear={handleAddGear}/>
                 </div>
+
                 <Dialog toggleDialog={toggleDialog} ref={ref}>
                     {dialogContent}
                 </Dialog>

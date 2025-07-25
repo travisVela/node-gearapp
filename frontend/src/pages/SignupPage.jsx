@@ -10,7 +10,6 @@ import {
     MessageSquare,
     User,
 } from "lucide-react";
-// import {api} from "../api"
 import {useUserStore} from "../stores/useUserStore.js";
 import {motion} from "framer-motion";
 import {Link} from "react-router-dom";

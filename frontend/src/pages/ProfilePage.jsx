@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from "react";
-import {api} from "../api.js";
 
 import img from "../assets/react.svg"
 
 import EditBioDialog from "../components/EditBioDialog.jsx";
+import {useUserStore} from "../stores/useUserStore.js";
 
 
 const ProfilePage = () => {
@@ -13,13 +13,13 @@ const ProfilePage = () => {
     const ref = useRef(null)
     const dropdownRef = useRef(null)
     const [formData, setFormData] = useState({})
-    const {get_user_info, userInfo} = api()
+    const {user} = useUserStore()
 
 
     useEffect(() => {
 
-        get_user_info()
-    }, [get_user_info]);
+        user
+    }, [user]);
 
     useEffect(() => {
         if (isRefOpen) {
@@ -55,11 +55,10 @@ const ProfilePage = () => {
         }
         setisdropdownRefOpen(false)
         setIsRefOpen(true)
-        setFormData(userInfo)
+        setFormData(user)
         ref.current.hasAttribute("open")
             ? ref.current.close()
             : ref.current.showModal()
-        get_user_info()
 
     }
 
@@ -84,7 +83,7 @@ const ProfilePage = () => {
                     </button>
                     {/*${!show ? "hidden" : "absolute m-0 transform translate-12 z-10"}*/}
                     <dialog ref={dropdownRef}
-                            className={`absolute top-1/2 left-1/2 transform translate-x-8 -translate-y-6 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-30 dark:bg-gray-700`}
+                            className={`absolute top-1/2 left-1/2 transform translate-x-8 -translate-y-24 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-30 dark:bg-gray-700`}
                             onClick={(e) => {
                                 if (e.currentTarget === e.target) {
                                     handleDropdown();
@@ -111,7 +110,7 @@ const ProfilePage = () => {
                 <div className="flex flex-col items-center pb-10">
                     <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={img}
                          alt=""/>
-                    <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{userInfo?.firstname} {userInfo?.lastname}</h5>
+                    <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{user?.firstname} {user?.lastname}</h5>
                     <span className="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
                     <div className="flex mt-4 md:mt-6">
                         <a href="#"
