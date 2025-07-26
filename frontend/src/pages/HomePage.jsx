@@ -9,6 +9,7 @@ import {useGearStore} from "../stores/useGearStore.js";
 const HomePage = () => {
     const {getGear, gear, deleteGear} = useGearStore()
     const [dialogContent, setDialogContent] = useState(null)
+    const [isEditRefOpen, setIsEditRefOpen] = useState(false)
     const ref = useRef(null)
     const editGearRef = useRef(null)
 
@@ -29,7 +30,16 @@ const HomePage = () => {
 
     }, [getGear, gear]);
 
+    // useEffect(() => {
+    //     if (isEditRefOpen) {
+    //         ref.current?.showModal();
+    //     } else {
+    //         ref.current?.close();
+    //     }
+    // }, [isEditRefOpen])
+
     function toggleDialog(item) {
+
         if (!ref) {
             return
         }
@@ -39,26 +49,26 @@ const HomePage = () => {
             : ref.current.showModal()
     }
 
-    const handleToggleEditDialog = (item) => {
-        setIsOpen(!isOpen)
+    function handleToggleEditDialog(item) {
+
+        setIsEditRefOpen(true)
+        // setIsOpen(!isOpen)
         setFormData(item)
 
         editGearRef.current.hasAttribute("open")
             ? editGearRef.current.close()
             : editGearRef.current.showModal()
-    };
+
+    }
 
     const handleDelete = (item) => {
         try {
             deleteGear(item._id)
         } catch (error) {
-            console.error("Error deleteing gear", error);
+            console.error("Error deleting gear", error);
         }
         getGear()
     }
-
-
-    // API ENDPOINTS
 
     const handleAddGear = async () => {
         try {
@@ -113,13 +123,9 @@ const HomePage = () => {
                                                 <div className={"flex flex-row justify-center items-center"}>
                                                     <button onClick={() => handleToggleEditDialog(item)}><Pencil/>
                                                     </button>
-                                                    {isOpen && (
-                                                        <EditFormDialog
-                                                            onClose={handleToggleEditDialog}
-                                                            initialData={formData}
-                                                            ref={editGearRef}
-                                                        />
-                                                    )}
+                                                    {/*{isOpen && (*/}
+                                                    {/*    */}
+                                                    {/*)}*/}
                                                     <div>
                                                         <button onClick={() => handleDelete(item)}>
                                                             <Trash>
@@ -144,6 +150,13 @@ const HomePage = () => {
                 <Dialog toggleDialog={toggleDialog} ref={ref}>
                     {dialogContent}
                 </Dialog>
+
+                <EditFormDialog
+                    toggleDialog={handleToggleEditDialog}
+                    onClose={handleToggleEditDialog}
+                    initialData={formData}
+                    ref={editGearRef}
+                />
 
             </div>
 

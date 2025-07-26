@@ -2,11 +2,12 @@ import img from "../assets/react.svg";
 import React, {forwardRef, useEffect, useState} from "react";
 import {motion} from "framer-motion";
 import {Lock, LogIn} from "lucide-react";
+import {useGearStore} from "../stores/useGearStore.js";
 
-const EditBioForm = ({data, onSubmit, onClose}) => {
-    const [bio, setBio] = useState(data)
+const EditBioForm = ({data, onSubmit}) => {
+
     const [formState, setFormState] = useState(data);
-
+    const {updateGear} = useGearStore()
 
     useEffect(() => {
         setFormState(data);
@@ -23,7 +24,6 @@ const EditBioForm = ({data, onSubmit, onClose}) => {
     }
 
     return (
-
 
         <div className='flex flex-col justify-center py-8 pt-0 sm:px-6 lg:px-8'>
             <motion.div

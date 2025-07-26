@@ -3,6 +3,7 @@ import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import Gear from "../models/gear.model.js";
+import {set} from "mongoose";
 
 dotenv.config({path: '../.env'})
 
@@ -149,4 +150,32 @@ export const getProfile = async (req, res) => {
 		res.status(500).json({ message: "Server error", error: error.message });
 	}
 };
+
+export const updateProfile = async (req, res) => {
+	try {
+		let username_taken;
+		const username = req.body.username
+
+		if (req.user.username !== req.body.username) {
+			username_taken = await User.findOne({username})
+		}
+
+		if (username_taken) {
+			res.status(400).json({"message": "username taken"})
+		}
+
+		const id = req.body._id
+		console.log(id)
+		const user_update = await User.findById(id)
+		console.log(user_update)
+		user_update.username = username
+		user_update.bio = req.body.bio
+		user_update.save()
+		res.status(200).json({"message": "Profile updated successfully"})
+
+	} catch (error) {
+		console.log(error.message)
+		// res.status(500).json({ message: error.message || 'server error' });
+	}
+}
 

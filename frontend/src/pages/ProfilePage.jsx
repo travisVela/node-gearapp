@@ -23,20 +23,19 @@ const ProfilePage = () => {
 
     useEffect(() => {
         if (isRefOpen) {
-      ref.current?.showModal();
-    } else {
-      ref.current?.close();
-    }
+            ref.current?.showModal();
+        } else {
+            ref.current?.close();
+        }
     }, [isRefOpen])
 
     useEffect(() => {
         if (isdropdownRefOpen) {
-     dropdownRef.current?.showModal();
-    } else {
-     dropdownRef.current?.close();
-    }
+            dropdownRef.current?.showModal();
+        } else {
+            dropdownRef.current?.close();
+        }
     }, [isdropdownRefOpen])
-
 
 
     const handleDropdown = () => {

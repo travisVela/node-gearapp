@@ -39,6 +39,16 @@ export const useUserStore = create((set, get) => ({
     },
     editProfile: async (data) => {
         console.log(data)
+        set({loading: true})
+        try {
+            const res = await axiosInstance.put("/auth/update-profile", data)
+            toast.success(res.data.message || "success")
+
+        } catch (error) {
+            set({loading: false})
+            // console.log(error.response.data.message)
+            toast.error(error.response.data.message || "error updating profile in")
+        }
     },
     checkAuth: async () => {
         set({checkingAuth: true})

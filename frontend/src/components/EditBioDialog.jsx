@@ -5,9 +5,7 @@ import {useUserStore} from "../stores/useUserStore.js";
 
 const EditFormDialog = forwardRef(({onClose, initialData, children}, ref) => {
 
-
     const {editProfile} = useUserStore()
-
 
     const handleClick = (e) => {
 
@@ -28,10 +26,10 @@ const EditFormDialog = forwardRef(({onClose, initialData, children}, ref) => {
                 <div>
                     {children}
                     <button className={"m-2"} onClick={handleClick}>X</button>
-                    <EditBioForm data={initialData} onSubmit={(updatedData) => {
-
+                    <EditBioForm
+                        data={initialData}
+                        onSubmit={(updatedData) => {
                         editProfile(updatedData)
-
                         onClose();
                     }}/>
                 </div>
