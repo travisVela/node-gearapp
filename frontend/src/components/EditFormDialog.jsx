@@ -8,6 +8,7 @@ const EditGearFormDialog = forwardRef(({onClose, initialData, children}, editGea
 
     const {updateGear} = useGearStore()
 
+
     const handleClick = (e) => {
 
         if (e.currentTarget === e.target) {
@@ -32,8 +33,10 @@ const EditGearFormDialog = forwardRef(({onClose, initialData, children}, editGea
                 <EditGearForm
                     data={initialData}
                     onSubmit={(updatedData) => {
+
                         updateGear(updatedData)
                         onClose()
+
                     }}
                 />
             </div>
@@ -61,20 +64,3 @@ const EditGearFormDialog = forwardRef(({onClose, initialData, children}, editGea
 })
 export default EditGearFormDialog
 
-// function EditFormDialog({ onClose, initialData }) {
-//     const {updateGear} = useGearStore()
-//
-//   return (
-//     <div >
-//       <div className="dialog-content flex flex-col justify-items-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl max-w-lg focus:outline-none bg-gray-800 z-50">
-//         <button className={"mt-4"} onClick={onClose}>Close</button>
-//         <EditGearForm data={initialData} onSubmit={(updatedData) => {
-//
-//           updateGear(updatedData)
-//           onClose();
-//         }} />
-//       </div>
-//     </div>
-//   );
-// }
-// export default EditFormDialog;

@@ -29,8 +29,8 @@ const EditFormDialog = forwardRef(({onClose, initialData, children}, ref) => {
                     <EditBioForm
                         data={initialData}
                         onSubmit={(updatedData) => {
-                        editProfile(updatedData)
-                        onClose();
+                            editProfile(updatedData)
+                            onClose();
                     }}/>
                 </div>
         </dialog>

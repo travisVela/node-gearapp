@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import Select from 'react-select'
 import {motion} from "framer-motion";
@@ -7,18 +7,14 @@ import {useGearStore} from "../stores/useGearStore.js";
 
 
 const EditGearForm = ({data, onSubmit}) => {
-    // const [type, setType] = useState("")
-    // const [brand, setBrand] = useState("")
-    // const [model, setModel] = useState("")
-    // const [serial_number, setSerial] = useState("")
-    // const [year, setYear] = useState("")
-    // const [description, setDescription] = useState("")
-
     const [formState, setFormState] = useState(data);
+    const {updateGear} = useGearStore()
+
 
 
     useEffect(() => {
         setFormState(data);
+
     }, [data]);
 
 
@@ -38,18 +34,18 @@ const EditGearForm = ({data, onSubmit}) => {
     // }
     // const selectedType = type ? type : "Select"
 
+
     const handleChange = (e) => {
 
         const {id, value} = e.target
         setFormState(prevState => ({...prevState, [id]: value}));
     }
 
-
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(formState)
-
         onSubmit(formState);
+        // updateGear(formState)
+        setFormState(prevState => prevState + 1)
 
     }
 
@@ -87,7 +83,7 @@ const EditGearForm = ({data, onSubmit}) => {
                                         id={'type'}
                                         type='text'
 
-                                        value={formState.type || ''}
+                                        value={formState?.type || ''}
                                         onChange={handleChange}
                                         className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm
@@ -111,7 +107,7 @@ const EditGearForm = ({data, onSubmit}) => {
                                         id='brand'
                                         type='text'
 
-                                        value={formState.brand || ''}
+                                        value={formState?.brand || ''}
                                         onChange={handleChange}
                                         className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
@@ -134,7 +130,7 @@ const EditGearForm = ({data, onSubmit}) => {
                                     id='model'
                                     type='text'
 
-                                    value={formState.model || ''}
+                                    value={formState?.model || ''}
                                     onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
@@ -154,7 +150,7 @@ const EditGearForm = ({data, onSubmit}) => {
                                     id='year'
                                     type='text'
 
-                                    value={formState.year || ''}
+                                    value={formState?.year || ''}
                                     onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
@@ -175,7 +171,7 @@ const EditGearForm = ({data, onSubmit}) => {
                                     id='serial_number'
                                     type='text'
                                     required
-                                    value={formState.serial_number || ''}
+                                    value={formState?.serial_number || ''}
                                     onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
@@ -194,7 +190,7 @@ const EditGearForm = ({data, onSubmit}) => {
                                 <textarea
                                     id='description'
                                     // type='description'
-                                    value={formState.description || ''}
+                                    value={formState?.description || ''}
                                     onChange={handleChange}
                                     className=' block h-24 w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'

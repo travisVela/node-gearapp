@@ -37,6 +37,38 @@ const setCookies = (res, accessToken, refreshToken) => {
 		maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 	});
 };
+export const findUsername = async (req, res) => {
+	try {
+		const {username} = req.params
+		const user = await User.findOne({username})
+
+		if (user) {
+			return res.status(200).json({exists: true, message: "Username is already taken"})
+		} else {
+			return res.status(200).json({exists: false, message: "Username available"})
+		}
+
+	} catch (error) {
+		console.error('Error checking username:', error);
+    	return res.status(500).json({ message: 'Server error.' });
+	}
+}
+export const findEmail = async (req, res) => {
+	try {
+		const {email} = req.params
+		const user = await User.findOne({email})
+
+		if (user) {
+			return res.status(200).json({exists: true, message: "Email is already taken"})
+		} else {
+			return res.status(200).json({exists: false, message: "Email available"})
+		}
+
+	} catch (error) {
+		console.error('Error checking username:', error);
+    	return res.status(500).json({ message: 'Server error.' });
+	}
+}
 
 export const signup = async (req, res) => {
 
@@ -161,21 +193,22 @@ export const updateProfile = async (req, res) => {
 		}
 
 		if (username_taken) {
-			res.status(400).json({"message": "username taken"})
+			return res.status(400).json({"message": "username taken"})
 		}
 
-		const id = req.body._id
-		console.log(id)
-		const user_update = await User.findById(id)
-		console.log(user_update)
-		user_update.username = username
-		user_update.bio = req.body.bio
-		user_update.save()
-		res.status(200).json({"message": "Profile updated successfully"})
+		if (!username_taken) {
+			// const id = req.body._id
+			const user_update = await User.findById(req.body._id)
+
+			user_update.username = username
+			user_update.bio = req.body.bio
+			user_update.save()
+			res.status(200).json({"message": "Profile updated successfully"})
+		}
 
 	} catch (error) {
 		console.log(error.message)
-		// res.status(500).json({ message: error.message || 'server error' });
+		res.status(500).json({ message: error.message || 'server error' });
 	}
 }
 

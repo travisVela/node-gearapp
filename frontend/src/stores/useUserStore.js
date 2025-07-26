@@ -6,6 +6,7 @@ export const useUserStore = create((set, get) => ({
     user: null,
     loading: false,
     checkingAuth: false,
+    usernameData: null,
 
     signup: async ({email, username, password, confirmPassword, firstname, lastname, bio}) => {
         set({loading: true})
@@ -38,12 +39,12 @@ export const useUserStore = create((set, get) => ({
         }
     },
     editProfile: async (data) => {
-        console.log(data)
+
         set({loading: true})
         try {
             const res = await axiosInstance.put("/auth/update-profile", data)
             toast.success(res.data.message || "success")
-
+            set({loading: false})
         } catch (error) {
             set({loading: false})
             // console.log(error.response.data.message)
@@ -85,6 +86,28 @@ export const useUserStore = create((set, get) => ({
             throw error
         }
 
+    },
+    findUsername: async (newUsername) => {
+        set({loading: true})
+        try {
+             const response = await axiosInstance.get(`/auth/check-username/${newUsername}`);
+            set({loading: false, usernameData: response.data})
+        } catch (error) {
+            set({checkingAuth: false, user: null})
+            console.log(error.response.data.message)
+            toast.error(error.response.data.message || "error checking auth")
+        }
+    },
+    findEmail: async (email) => {
+        set({loading: true})
+        try {
+             const response = await axiosInstance.get(`/auth/check-email/${email}`);
+            set({loading: false, emailData: response.data})
+        } catch (error) {
+            set({checkingAuth: false})
+            console.log(error.response.data.message)
+            toast.error(error.response.data.message || "error checking auth")
+        }
     }
 }))
 

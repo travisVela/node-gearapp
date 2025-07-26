@@ -30,13 +30,6 @@ const HomePage = () => {
 
     }, [getGear, gear]);
 
-    // useEffect(() => {
-    //     if (isEditRefOpen) {
-    //         ref.current?.showModal();
-    //     } else {
-    //         ref.current?.close();
-    //     }
-    // }, [isEditRefOpen])
 
     function toggleDialog(item) {
 
@@ -51,7 +44,7 @@ const HomePage = () => {
 
     function handleToggleEditDialog(item) {
 
-        setIsEditRefOpen(true)
+        // setIsEditRefOpen(true)
         // setIsOpen(!isOpen)
         setFormData(item)
 

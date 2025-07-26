@@ -16,38 +16,79 @@ import {Link} from "react-router-dom";
 
 
 const SignupPage = () => {
-    // const [showPassword, setShowPassword] = useState(false);
+
+    const [formState, setFormState] = useState();
     const [loading, setLoading] = useState(false)
-    const {signup} = useUserStore()
+    const [username, setUsername] = useState()
+    const [usernameError, setUsernameError] = useState('');
+    const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
 
-    const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-        confirmPassword: "",
-        username: "",
-        firstname: "",
-        lastname: "",
-        bio: ""
-    });
-    const validateForm = () => {
-        if (!formData.username.trim()) return toast.error("Username is required");
-        if (!formData.firstname.trim()) return toast.error("First Name is required");
-        if (!formData.lastname.trim()) return toast.error("Last Name is required");
-        if (!formData.email.trim()) return toast.error("Email is required");
-        if (!/\S+@\S+\.\S+/.test(formData.email))
-            return toast.error("Invalid email format");
-        if (!formData.password) return toast.error("Password is required");
-        if (!formData.confirmPassword) return toast.error("Password is required");
-        if (formData.password.length < 6)
-            return toast.error("Password must be al least 6 characters");
+    const [email, setEmail] = useState()
+    const [emailError, setEmailError] = useState('');
+    const [isEmailAvailable, setIsEmailAvailable] = useState(false);
 
-        return true;
+
+    const {signup, findUsername, usernameData, findEmail, emailData} = useUserStore()
+
+
+    const handleChange = async (e) => {
+
+        const {id, value} = e.target
+        // console.log(e.target.id)
+        setFormState(prevState => ({...prevState, [id]: value}));
+
+        let username = e.target.value
+        setUsername(username);
+
+        if (e.target.id === "username" && username.length > 0) {
+            try {
+                await findUsername(username)
+                if (usernameData?.exists) {
+                    setUsernameError(usernameData.message);
+                    setIsUsernameAvailable(false);
+                } else {
+                    setUsernameError('');
+                    setIsUsernameAvailable(true);
+                }
+            } catch (error) {
+                console.error('Error fetching username availability:', error);
+                setUsernameError('Could not check username availability.');
+                setIsUsernameAvailable(false);
+            }
+        } else {
+            setUsernameError('');
+            setIsUsernameAvailable(false);
+        }
+
+        let email = e.target.value
+        setEmail(email);
+
+        if (e.target.id === "email" && email.length > 0) {
+
+            try {
+                await findEmail(email)
+                if (emailData?.exists) {
+                    setEmailError(emailData.message);
+                    setIsEmailAvailable(false);
+                } else {
+                    setEmailError('');
+                    setIsEmailAvailable(true);
+                }
+            } catch (error) {
+                console.error('Error fetching username availability:', error);
+                setEmailError('Could not check username availability.');
+                setIsEmailAvailable(false);
+            }
+        } else {
+            setEmailError('');
+            setIsEmailAvailable(false);
+        }
+
     }
-
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(formData)
-        signup(formData)
+        console.log(formState)
+        signup(formState)
 
         // const success = validateForm()
         // if (success === true) signup(formData)
@@ -87,14 +128,17 @@ const SignupPage = () => {
                                     id={'email'}
                                     type='email'
 
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                    value={formState?.email}
+                                    onChange={handleChange}
+                                    onKeyUp={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm
 									 placeholder-gray-400 focus:outline-none focus:ring-emerald-500
 									 focus:border-emerald-500 sm:text-sm'
                                     placeholder='email'
                                 />
+                                {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
+                                {isEmailAvailable && !emailError && <p style={{ color: 'green' }}>Email available!</p>}
                             </div>
                         </div>
 
@@ -107,15 +151,18 @@ const SignupPage = () => {
                                     <Lock className='h-5 w-5 text-gray-400' aria-hidden='true'/>
                                 </div>
                                 <input
-                                    id='username'
+                                    id={'username'}
                                     type='text'
 
-                                    value={formData.username}
-                                    onChange={(e) => setFormData({...formData, username: e.target.value})}
+                                    value={formState?.username || ''}
+                                    onChange={handleChange}
+                                    onKeyUp={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
                                     placeholder='username'
                                 />
+                                 {usernameError && <p style={{ color: 'red' }}>{usernameError}</p>}
+                                {isUsernameAvailable && !usernameError && <p style={{ color: 'green' }}>Username available!</p>}
                             </div>
                         </div>
                         <div>
@@ -130,8 +177,8 @@ const SignupPage = () => {
                                     id='password'
                                     type='password'
 
-                                    value={formData.password}
-                                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                                    value={formState?.password}
+                                    onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
                                     placeholder='password'
@@ -150,8 +197,8 @@ const SignupPage = () => {
                                     id='confirmPassword'
                                     type='password'
 
-                                    value={formData.confirmPassword}
-                                    onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                                    value={formState?.confirmPassword}
+                                    onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
                                     placeholder='confirm password'
@@ -170,8 +217,8 @@ const SignupPage = () => {
                                     id='firstname'
                                     type='text'
 
-                                    value={formData.firstname}
-                                    onChange={(e) => setFormData({...formData, firstname: e.target.value})}
+                                    value={formState?.firstname}
+                                    onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
                                     placeholder='first name'
@@ -190,8 +237,8 @@ const SignupPage = () => {
                                     id='lastname'
                                     type='text'
 
-                                    value={formData.lastname}
-                                    onChange={(e) => setFormData({...formData, lastname: e.target.value})}
+                                    value={formState?.lastname}
+                                    onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
                                     placeholder='last name'
@@ -209,8 +256,8 @@ const SignupPage = () => {
                                 <textarea
                                     id='bio'
                                     // type='description'
-                                    value={formData.bio}
-                                    onChange={(e) => setFormData({...formData, bio: e.target.value})}
+                                    value={formState?.bio}
+                                    onChange={handleChange}
                                     className=' block h-24 w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
                                     placeholder='bio'
@@ -227,7 +274,7 @@ const SignupPage = () => {
 							rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600
 							 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2
 							  focus:ring-emerald-500 transition duration-150 ease-in-out disabled:opacity-50'
-                            disabled={loading}
+                            // disabled={!isUsernameAvailable}
                         >
                             {loading ? (
                                 <>

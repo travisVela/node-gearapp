@@ -36,7 +36,6 @@ export const addGear = async (req, res) => {
 }
 export const updateGear = async (req, res) => {
     try {
-
         const update_info = req.body
         const gear_to_update = await Gear.findById(req.body._id)
 
@@ -57,7 +56,7 @@ export const updateGear = async (req, res) => {
             gear_to_update.save()
         }
 
-        res.status(200).json({"message": "updated gear"})
+        res.status(200).json({gear_to_update})
 
     } catch (error) {
         console.log("Error in adding gear", error.message);
