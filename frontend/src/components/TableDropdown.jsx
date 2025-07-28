@@ -15,10 +15,6 @@ const TableDropdown = ({getValue, row}) => {
     const [formData, setFormData] = useState({})
     const {gear, deleteGear, getGear} = useGearStore()
 
-    // useEffect(() => {
-    //
-    //     gear
-    // }, []);
 
     useEffect(() => {
         if (isEditRefOpen) {
@@ -68,6 +64,7 @@ const TableDropdown = ({getValue, row}) => {
         }
         getGear()
     }
+
 
     return (
         <div className="flex justify-end px-4 pt-4">

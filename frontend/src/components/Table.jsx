@@ -2,15 +2,20 @@ import {useReactTable, getCoreRowModel, flexRender} from '@tanstack/react-table'
 import {useGearStore} from "../stores/useGearStore.js";
 import {useEffect, useState} from "react";
 import TableDropdown from "./TableDropdown.jsx";
+import DescriptionCell from "./DescriptionCell.jsx";
+
+
 
 const Table = () => {
     const {getGear, gear} = useGearStore()
-    const [data, setData] = useState(gear)
+    const data = gear ? gear : []
 
     useEffect(() => {
         getGear()
-        setData(gear)
-    }, [gear]);
+
+    }, [getGear]);
+
+
 
 
     const columns = [
@@ -42,7 +47,7 @@ const Table = () => {
         {
             accessorKey: "description",
             header: 'Description',
-            cell: (props) => <p>{props.getValue()}</p>
+            cell: DescriptionCell
         },
         {
             accessorKey: "edit",
@@ -56,8 +61,6 @@ const Table = () => {
         columns,
         getCoreRowModel: getCoreRowModel()
     })
-
-
 
     return (
     <div className={"container justify-items-center"}>
@@ -74,7 +77,7 @@ const Table = () => {
 
             </div>)}
             {table.getRowModel().rows.map(row => <div className={"tr border flex flex-row "} key={row.id}>
-                    {row?.getVisibleCells().map(cell => <div style={{width: cell.column.getSize()}} className={`td  flex flex-col m-2 `} key={cell.id}>
+                    {row.getVisibleCells().map(cell => <div style={{width: cell.column.getSize()}} className={`td  flex flex-col m-2 `} key={cell.id}>
                         {
                             flexRender(
                                 cell.column.columnDef.cell,
