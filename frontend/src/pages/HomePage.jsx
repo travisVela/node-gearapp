@@ -55,24 +55,23 @@ const HomePage = () => {
     };
 
     return (
-        <div className={"flex flex-col w-full"}>
-            <div
-                className={"flex flex-row items-center justify-center p-2 w-screen h-lvh mt-2 divide-x-2 divide-sky-500"}>
+        <div className={""}>
+            <div className={"flex flex-row items-center justify-center p-2 w-screen h-lvh mt-2 divide-x-2 divide-sky-500"}>
 
                 {/*column to set divide*/}
-                <div className="flex flex-row items-center w-full justify-center h-3/4">
+                <div className="flex flex-row items-center  justify-center h-3/4">
 
                     {/*inventory column*/}
-                    <Table />
+                    <div className={"flex flex-col "}>
+                        <Table />
+                    </div>
 
 
                 </div>
                 {/*form column*/}
-                <div className="container h-lvh flex flex-col flex-6/8 justify-center items-center">
+                <div className="container h-lvh flex flex-col  justify-center items-center">
                     <AddGearForm addGear={handleAddGear}/>
                 </div>
-
-
 
                 <EditFormDialog
                     toggleDialog={handleToggleEditDialog}

@@ -67,7 +67,7 @@ const TableDropdown = ({getValue, row}) => {
 
 
     return (
-        <div className="flex justify-end px-4 pt-4">
+        <div className="flex justify-end px-4 ">
             <button id="dropdownButton" data-dropdown-toggle="dropdown"
                     className="inline-block closeButton text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700  focus:outline-none  rounded-lg text-sm p-1.5"
                     type="button"

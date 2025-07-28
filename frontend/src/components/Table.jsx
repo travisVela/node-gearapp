@@ -1,14 +1,17 @@
-import {useReactTable, getCoreRowModel, flexRender} from '@tanstack/react-table'
+import {useReactTable, getCoreRowModel, flexRender, getFilteredRowModel} from '@tanstack/react-table'
 import {useGearStore} from "../stores/useGearStore.js";
 import {useEffect, useState} from "react";
 import TableDropdown from "./TableDropdown.jsx";
 import DescriptionCell from "./DescriptionCell.jsx";
+import Filters from "./Filters.jsx";
 
 
 
 const Table = () => {
     const {getGear, gear} = useGearStore()
     const data = gear ? gear : []
+    const [columnFilters, setColumnFilters] = useState([])
+
 
     useEffect(() => {
         getGear()
@@ -59,12 +62,22 @@ const Table = () => {
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel: getCoreRowModel()
+        state: {
+            columnFilters
+        },
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel()
     })
-
+    console.log(columnFilters)
     return (
     <div className={"container justify-items-center"}>
-        <div style={{width: table.getTotalSize()}} className={`flex flex-col`}>
+        <div className={"mx-6 px-2 w-full"}>
+            <Filters
+                columnFilters={columnFilters}
+                setColumnFilters={setColumnFilters}
+            />
+        </div>
+        <div style={{width: table.getTotalSize() - 120}} className={`flex flex-col mx-6`}>
             {table.getHeaderGroups().map(headerGroup => <div className={"tr flex flex-row border"} key={headerGroup.id}>
 
                 {headerGroup.headers.map(
@@ -77,7 +90,7 @@ const Table = () => {
 
             </div>)}
             {table.getRowModel().rows.map(row => <div className={"tr border flex flex-row "} key={row.id}>
-                    {row.getVisibleCells().map(cell => <div style={{width: cell.column.getSize()}} className={`td  flex flex-col m-2 `} key={cell.id}>
+                    {row.getVisibleCells().map(cell => <div style={{width: cell.column.getSize()}} className={`td  flex flex-col m-2 justify-center`} key={cell.id}>
                         {
                             flexRender(
                                 cell.column.columnDef.cell,
