@@ -58,7 +58,6 @@ const ProfilePage = () => {
         ref.current.hasAttribute("open")
             ? ref.current.close()
             : ref.current.showModal()
-
     }
 
     return (
@@ -82,13 +81,12 @@ const ProfilePage = () => {
                     </button>
                     {/*${!show ? "hidden" : "absolute m-0 transform translate-12 z-10"}*/}
                     <dialog ref={dropdownRef}
-                            className={`absolute top-1/2 left-1/2 transform translate-x-8 -translate-y-24 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-30 dark:bg-gray-700`}
+                            className={`absolute top-1/2 left-1/2 transform translate-x-8 -translate-y-6 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-30 dark:bg-gray-700`}
                             onClick={(e) => {
                                 if (e.currentTarget === e.target) {
                                     handleDropdown();
                                 }
                             }}
-
                     >
 
                         <ul className="py-2" aria-labelledby="dropdownButton">

@@ -30,7 +30,7 @@ const Dialog = forwardRef(({children, toggleDialog}, ref) => {
             <div>
                 {children}
 
-                <button onClick={handleClick} className={"flex mt-4 "}>X</button>
+                <button onClick={handleClick} className={"flex mt-4 closeButton"}>X</button>
             </div>
         </dialog>
 

@@ -23,13 +23,13 @@ const EditGearFormDialog = forwardRef(({onClose, initialData, children}, editGea
         <dialog
             ref={editGearRef}
             onClick={handleClick}
-            className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800  p-6 rounded-lg shadow-xl max-w-lg focus:outline-none`}
+            className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800  rounded-lg shadow-xl max-w-lg focus:outline-none`}
             id={"editformdialog"}
         >
             <div>
                 {children}
 
-                <button onClick={handleClick} className={"flex mt-4 "}>X</button>
+                <button onClick={handleClick} className={"flex closeButton"}>X</button>
                 <EditGearForm
                     data={initialData}
                     onSubmit={(updatedData) => {

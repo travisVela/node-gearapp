@@ -53,6 +53,7 @@ export const updateGear = async (req, res) => {
             gear_to_update.model = update_info.model
             gear_to_update.year = update_info.year
             gear_to_update.description = update_info.description
+            gear_to_update.serial_number = update_info.serial_number
             gear_to_update.save()
         }
 

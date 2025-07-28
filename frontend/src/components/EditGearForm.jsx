@@ -51,7 +51,7 @@ const EditGearForm = ({data, onSubmit}) => {
 
     return (
 
-        <div className='flex flex-col justify-center py-8 sm:px-6 lg:px-8'>
+        <div className='flex flex-col justify-center py-2  sm:px-2 lg:px-6'>
             <motion.div
                 className='sm:mx-auto sm:w-full sm:max-w-md'
                 initial={{opacity: 0, y: -20}}
@@ -67,7 +67,7 @@ const EditGearForm = ({data, onSubmit}) => {
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.8, delay: 0.2}}
             >
-                <div className='bg-gray-800 py-8 px-4  sm:rounded-lg sm:px-10'>
+                <div className='bg-gray-800 py-4 px-4  sm:rounded-lg sm:px-10'>
                     <form onSubmit={handleSubmit} className='space-y-2'>
                         <div className={"flex flex-row w-full"}>
                             <div className={"flex flex-col justify-center items-start mx-1"}>

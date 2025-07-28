@@ -20,12 +20,12 @@ const EditFormDialog = forwardRef(({onClose, initialData, children}, ref) => {
     return (
         <dialog
             ref={ref}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl max-w-lg focus:outline-none"
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl max-w-lg focus:outline-none bg-gray-800"
             onClick={handleClick}
         >
                 <div>
                     {children}
-                    <button className={"m-2"} onClick={handleClick}>X</button>
+                    <button className={"m-2 closeButton "} onClick={handleClick}>X</button>
                     <EditBioForm
                         data={initialData}
                         onSubmit={(updatedData) => {

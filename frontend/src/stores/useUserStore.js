@@ -60,7 +60,7 @@ export const useUserStore = create((set, get) => ({
         } catch (error) {
             set({checkingAuth: false, user: null})
             console.log(error.response.data.message)
-            toast.error(error.response.data.message || "error checking auth")
+            // toast.error(error.response.data.message || "error checking auth")
         }
     },
     logout: async () => {

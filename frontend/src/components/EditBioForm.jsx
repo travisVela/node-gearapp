@@ -49,14 +49,13 @@ const EditBioForm = ({data, onSubmit}) => {
         }
     }
 
-
     const handleSubmit = (e) => {
         e.preventDefault()
+        onSubmit(formState)
         if (isUsernameAvailable && !usernameError) {
 
-            onSubmit(formState)
         }
-        setFormState(usernameData)
+
     }
 
 return (
@@ -77,7 +76,7 @@ return (
             animate={{opacity: 1, y: 0}}
             transition={{duration: 0.8, delay: 0.2}}
         >
-            <div className='bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10'>
+            <div className='bg-gray-800 py-8 px-4 sm:rounded-lg sm:px-10'>
                 <form onSubmit={handleSubmit} className='space-y-2'>
 
                     <div className={"flex flex-col justify-center items-start mx-1"}>
@@ -138,7 +137,7 @@ return (
 							rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600
 							 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2
 							  focus:ring-emerald-500 transition duration-150 ease-in-out disabled:opacity-50'
-                        disabled={!isUsernameAvailable}
+                        // disabled={!isUsernameAvailable}
                     >
                         {/*{loading ? (*/}
                         {/*    <>*/}
@@ -158,43 +157,7 @@ return (
             </div>
         </motion.div>
     </div>
-    // <div className={"flex container flex-col w-full items-center justify-center "}>
-    //     <div
-    //         className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-    //
-    //         <div className="flex flex-col items-center pb-10">
-    //
-    //             <div className="flex mt-4 md:mt-6">
-    //                 <form onSubmit={handleSubmit}>
-    //                     <div className={"flex flex-col w-50"}>
-    //
-    //                         <textarea
-    //                             value={formState.bio || ''}
-    //                             name={"bio"}
-    //                             onChange={handleChange}
-    //
-    //                             className="input border border-gray-500  w-full rounded-2xl  p-2 m-2 focus:border-sky-500 focus:ring-0 focus:outline-none"
-    //                             rows="5"
-    //                             cols={"40"}
-    //                         />
-    //                     </div>
-    //                     <div className={"flex flex-col w-50"}>
-    //
-    //                         <input
-    //                             value={formState.username || ''}
-    //                             name={"username"}
-    //                             onChange={handleChange}
-    //
-    //                             className="input border border-gray-500  w-full rounded-2xl  p-2 m-2 focus:border-sky-500 focus:ring-0 focus:outline-none"
-    //
-    //                         />
-    //                     </div>
-    //                     <button className="m-2" type="submit" onClick={onClose}>Edit</button>
-    //                 </form>
-    //             </div>
-    //         </div>
-    //     </div>
-    // </div>
+
 )
 }
 
