@@ -6,9 +6,10 @@ import Dialog from "../components/Dialog.jsx";
 import EditFormDialog from "../components/EditFormDialog.jsx";
 import {useGearStore} from "../stores/useGearStore.js";
 import Table from "../components/Table.jsx";
+import CardDropdown from "../components/CardDropdown.jsx";
 
 const HomePage = () => {
-    const {getGear} = useGearStore()
+    const {getGear, gear} = useGearStore()
     const [isEditRefOpen, setIsEditRefOpen] = useState(false)
 
     const [isdropdownRefOpen, setisdropdownRefOpen] = useState(false)
@@ -55,15 +56,15 @@ const HomePage = () => {
     };
 
     return (
-        <div className={""}>
-            <div className={"flex flex-row items-center justify-center p-2 w-screen h-lvh mt-2 divide-x-2 divide-sky-500"}>
+        <div className={"container"}>
+            <div className={"flex flex-row items-start justify-center p-2 w-screen h-lvh mt-2 "}>
 
                 {/*column to set divide*/}
-                <div className="flex flex-row items-center  justify-center h-3/4">
+                <div className="flex flex-row w-full justify-center h-3/4">
 
                     {/*inventory column*/}
                     <div className={"flex flex-col "}>
-                        <Table />
+                        <CardDropdown />
                     </div>
 
 

@@ -5,8 +5,6 @@ import TableDropdown from "./TableDropdown.jsx";
 import DescriptionCell from "./DescriptionCell.jsx";
 import Filters from "./Filters.jsx";
 
-
-
 const Table = () => {
     const {getGear, gear} = useGearStore()
     const data = gear ? gear : []
@@ -17,9 +15,6 @@ const Table = () => {
         getGear()
 
     }, [getGear]);
-
-
-
 
     const columns = [
         {
@@ -40,12 +35,16 @@ const Table = () => {
         {
             accessorKey: "year",
             header: 'Year',
-            cell: (props) => <p>{props.getValue()}</p>
+            cell: (props) =>
+                props.getValue() === null  ?  <p className={"text-3xl"}>-</p> : <p>{props.getValue()}</p>
+
         },
         {
             accessorKey: "serial_number",
             header: 'SN',
-            cell: (props) => <p>{props.getValue()}</p>
+            cell: (props) =>
+                props.getValue() === null  ?  <p className={"text-3xl"}>-</p> : <p>{props.getValue()}</p>
+
         },
         {
             accessorKey: "description",
@@ -68,7 +67,7 @@ const Table = () => {
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel()
     })
-    console.log(columnFilters)
+
     return (
     <div className={"container justify-items-center"}>
         <div className={"mx-6 px-2 w-full"}>
@@ -77,8 +76,8 @@ const Table = () => {
                 setColumnFilters={setColumnFilters}
             />
         </div>
-        <div style={{width: table.getTotalSize() - 120}} className={`flex flex-col mx-6`}>
-            {table.getHeaderGroups().map(headerGroup => <div className={"tr flex flex-row border"} key={headerGroup.id}>
+        <div style={{width: table.getTotalSize() * .8}} className={`flex flex-col mx-6`}>
+            {table.getHeaderGroups().map(headerGroup => <div className={"tr border-b  flex flex-row "} key={headerGroup.id}>
 
                 {headerGroup.headers.map(
 
@@ -89,8 +88,10 @@ const Table = () => {
                 )}
 
             </div>)}
-            {table.getRowModel().rows.map(row => <div className={"tr border flex flex-row "} key={row.id}>
+            {table.getRowModel().rows.map(row => <div className={"tr  flex flex-row "} key={row.id}>
+
                     {row.getVisibleCells().map(cell => <div style={{width: cell.column.getSize()}} className={`td  flex flex-col m-2 justify-center`} key={cell.id}>
+
                         {
                             flexRender(
                                 cell.column.columnDef.cell,

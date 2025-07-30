@@ -11,7 +11,8 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import Navbar from "./components/Navbar.jsx";
 import {useUserStore} from "./stores/useUserStore.js";
 import LoadingSpinner from "./components/LoadingSpinner.jsx";
-import Table from "./components/Table.jsx";
+
+import CardDropdown from "./components/CardDropdown.jsx";
 
 
 
@@ -45,8 +46,6 @@ const {user, checkAuth, checkingAuth} = useUserStore()
                 element={user ? <ProfilePage /> : <Navigate to={"/login"}/>}
 
               />
-              <Route path={"/table"} element={<Table />} />
-
 
         </Routes>
           <Toaster></Toaster>

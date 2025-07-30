@@ -87,7 +87,7 @@ const AddGearForm = () => {
                                 <input
                                     id={'type'}
                                     type='text'
-
+                                    required
                                     value={type}
                                     onChange={(e) => setType(e.target.value)}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
@@ -110,7 +110,7 @@ const AddGearForm = () => {
                                 <input
                                     id='brand'
                                     type='text'
-
+                                    required
                                     value={brand}
                                     onChange={(e) => setBrand(e.target.value)}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
@@ -130,7 +130,7 @@ const AddGearForm = () => {
                                 <input
                                     id='model'
                                     type='text'
-
+                                    required
                                     value={model}
                                     onChange={(e) => setModel(e.target.value)}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
@@ -150,7 +150,6 @@ const AddGearForm = () => {
                                 <input
                                     id='year'
                                     type='text'
-
                                     value={year}
                                     onChange={(e) => setYear(e.target.value)}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
@@ -170,7 +169,6 @@ const AddGearForm = () => {
                                 <input
                                     id='serial_number'
                                     type='text'
-                                    required
                                     value={serial_number}
                                     onChange={(e) => setSerial(e.target.value)}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
