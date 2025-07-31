@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import { Routes, Route, Navigate } from "react-router-dom";
 
@@ -17,17 +17,33 @@ import CardDropdown from "./components/CardDropdown.jsx";
 
 
 const App = () => {
-const {user, checkAuth, checkingAuth} = useUserStore()
+    const {user, checkAuth, checkingAuth} = useUserStore()
+    const [darkMode, setDarkMode] = useState(false)
     useEffect(() => {
         checkAuth()
     }, [checkAuth])
+
+    useEffect(() => {
+        let theme = localStorage.getItem("theme")
+        if (!theme) {
+            theme = "light"
+            setDarkMode(false)
+            localStorage.setItem("theme", theme)
+        }
+        setDarkMode(theme === "dark")
+    }, []);
+
+    const toggleTheme = () => {
+
+        setDarkMode(!darkMode)
+    }
 
     if (checkingAuth) return <LoadingSpinner />
 
   return (
 
-      <div>
-          <Navbar/>
+      <div className={`${darkMode ? "dark" : ''} h-full bg-gradient-to-r from-blue-200 to-indigo-400 dark:from-gray-800 dark:to-black`}>
+          <Navbar toggleTheme={toggleTheme} dark={darkMode}/>
           <Routes>
             <Route
                 path={"/"}

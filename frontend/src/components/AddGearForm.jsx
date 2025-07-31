@@ -44,19 +44,13 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
-
-             const data = {type, brand, model, serial_number, year, description}
+        const data = {type, brand, model, serial_number, year, description}
         try {
-
             setFormData(data)
             if (isOpen) {
-
                 onSubmit(formData)
                 setOpen(false)
             }
-
-
             addGear(formData)
 
         } catch (error) {
@@ -72,7 +66,7 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
 
     return (
 
-        <div className='flex flex-col justify-center py-2 sm:px-6 lg:px-8'>
+        <div className='flex flex-col justify-center sm:px-6 lg:px-8 '>
 
 
             <motion.div
@@ -81,18 +75,18 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.8, delay: 0.2}}
             >
-                <div className='bg-gray-800 py-4 px-4 shadow sm:rounded-lg sm:px-10'>
+                <div className='bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700 sm:py-4 px-4 sm:rounded-lg sm:px-10 '>
                     <motion.div
                         className='sm:mx-auto sm:w-full sm:max-w-md'
                         initial={{opacity: 0, y: -20}}
                         animate={{opacity: 1, y: 0}}
                         transition={{duration: 0.8}}
                     >
-                        <h2 className='mt-6 text-center text-2xl font-extrabold text-emerald-400'>Add gear</h2>
+                        <h2 className='mb-4 md:my-6 text-center text-xl font-bold leading-none text-gray-900 dark:text-white'>Add gear</h2>
                     </motion.div>
                     <form onSubmit={handleSubmit} className='space-y-6'>
                         <div>
-                            <label htmlFor='type' className='block text-sm font-medium text-gray-300'>
+                            <label htmlFor='type' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                 Type
                             </label>
                             <div className='mt-1 relative rounded-md shadow-sm'>
@@ -105,17 +99,15 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                                     required
                                     value={formData.type}
                                     onChange={handleChange}
-                                    className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm
-									 placeholder-gray-400 focus:outline-none focus:ring-emerald-500
-									 focus:border-emerald-500 sm:text-sm'
+                                    className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
                                     placeholder='type of gear'
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label htmlFor='brand' className='block text-sm font-medium text-gray-300'>
+                            <label htmlFor='brand' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                 Brand
                             </label>
                             <div className='mt-1 relative rounded-md shadow-sm'>
@@ -128,14 +120,14 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                                     required
                                     value={formData.brand}
                                     onChange={handleChange}
-                                    className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
+                                    className=' block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
                                     placeholder='brand'
                                 />
                             </div>
                         </div>
                         <div>
-                            <label htmlFor='brand' className='block text-sm font-medium text-gray-300'>
+                            <label htmlFor='brand' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                 Model
                             </label>
                             <div className='mt-1 relative rounded-md shadow-sm'>
@@ -148,14 +140,14 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                                     required
                                     value={formData.model}
                                     onChange={handleChange}
-                                    className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
+                                    className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
                                     placeholder='model'
                                 />
                             </div>
                         </div>
                         <div>
-                            <label htmlFor='brand' className='block text-sm font-medium text-gray-300'>
+                            <label htmlFor='brand' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                 Year
                             </label>
                             <div className='mt-1 relative rounded-md shadow-sm'>
@@ -167,14 +159,14 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                                     type='text'
                                     value={formData.year}
                                     onChange={handleChange}
-                                    className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
+                                    className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
                                     placeholder='year'
                                 />
                             </div>
                         </div>
                         <div>
-                            <label htmlFor='brand' className='block text-sm font-medium text-gray-300'>
+                            <label htmlFor='brand' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                 Serial Number
                             </label>
                             <div className='mt-1 relative rounded-md shadow-sm'>
@@ -186,14 +178,14 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                                     type='text'
                                     value={formData.serial_number}
                                     onChange={handleChange}
-                                    className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
+                                    className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
                                     placeholder='serial number'
                                 />
                             </div>
                         </div>
                         <div>
-                            <label htmlFor='brand' className='block text-sm font-medium text-gray-300'>
+                            <label htmlFor='brand' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                 Description
                             </label>
                             <div className='mt-1 relative rounded-md shadow-sm'>
@@ -205,8 +197,8 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                                     // type='description'
                                     value={formData.description}
                                     onChange={handleChange}
-                                    className=' block h-24 w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
+                                    className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
                                     placeholder='description'
                                     row={5}
                                     cols={40}
@@ -218,9 +210,9 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                         <button
                             type='submit'
                             className='w-full flex justify-center py-2 px-4 border border-transparent
-							rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600
-							 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2
-							  focus:ring-emerald-500 transition duration-150 ease-in-out disabled:opacity-50'
+							rounded-md shadow-sm text-sm font-medium  text-black/70 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:text-white
+							   transition duration-150 ease-in-out disabled:opacity-50'
+                            style={{backgroundColor: "goldenrod"}}
                             disabled={loading}
                             onClick={handleSubmit}
                         >

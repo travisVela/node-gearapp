@@ -25,10 +25,10 @@ const AddGearDialog = forwardRef(({onClose, toggleDialog, children}, ref) => {
     return (
         <dialog
             ref={ref}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl max-w-lg focus:outline-none bg-gray-800"
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl max-w-lg focus:outline-none bg-gray-800 w-4/5 sm:w-full"
             onClick={handleClick}
         >
-            <div>
+            <div >
                 {children}
                 <button className={"m-2 closeButton "} onClick={handleClick}>X</button>
                 <AddGearForm

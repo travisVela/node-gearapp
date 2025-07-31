@@ -24,14 +24,14 @@ const LoginPage = () => {
     };
 
     return (
-        <div className='flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
+        <div className='flex flex-col w-full items-center justify-center h-lvh sm:px-6 lg:px-8 '>
             <motion.div
                 className='sm:mx-auto sm:w-full sm:max-w-md'
                 initial={{opacity: 0, y: -20}}
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.8}}
             >
-                <h2 className='mt-6 text-center text-3xl font-extrabold text-emerald-400'>Login</h2>
+                <h2 className='mt-6 text-center text-3xl font-bold leading-none text-gray-900 dark:text-white'>Login</h2>
             </motion.div>
 
             <motion.div
@@ -40,10 +40,10 @@ const LoginPage = () => {
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.8, delay: 0.2}}
             >
-                <div className='bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10'>
+                <div className='bg-white border border-gray-200 rounded-lg shadow-sm p-8 dark:bg-gray-800 dark:border-gray-700 sm:py-4 px-4 m-2 sm:m-0 sm:rounded-lg sm:px-10 '>
                     <form onSubmit={handleSubmit} className='space-y-6'>
                         <div>
-                            <label htmlFor='email' className='block text-sm font-medium text-gray-300'>
+                            <label htmlFor='email' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                 Email address
                             </label>
                             <div className='mt-1 relative rounded-md shadow-sm'>
@@ -56,17 +56,15 @@ const LoginPage = () => {
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm
-									 placeholder-gray-400 focus:outline-none focus:ring-emerald-500
-									 focus:border-emerald-500 sm:text-sm'
+                                    className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
                                     placeholder='you@example.com'
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label htmlFor='password' className='block text-sm font-medium text-gray-300'>
+                            <label htmlFor='password' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                 Password
                             </label>
                             <div className='mt-1 relative rounded-md shadow-sm'>
@@ -79,8 +77,8 @@ const LoginPage = () => {
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
+                                    className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
                                     placeholder='••••••••'
                                 />
                             </div>
@@ -89,10 +87,11 @@ const LoginPage = () => {
                         <button
                             type='submit'
                             className='w-full flex justify-center py-2 px-4 border border-transparent
-							rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600
+							rounded-md shadow-sm text-sm font-medium dark:text-white text-black/70 bg-emerald-600
 							 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2
 							  focus:ring-emerald-500 transition duration-150 ease-in-out disabled:opacity-50'
                             disabled={loading}
+                             style={{backgroundColor: "goldenrod"}}
                         >
                             {loading ? (
                                 <>
@@ -118,44 +117,6 @@ const LoginPage = () => {
             </motion.div>
 
         </div>
-        // <div className={"flex flex-col h-screen justify-center items-center"}>
-        // <form className="my-4  flex flex-col justify-center items-center" onSubmit={handleSubmit}>
-        //     <div className={"flex flex-row w-full"}>
-        //         <div className={"flex flex-col w-50"}>
-        //             <input
-        //                 type={"email"}
-        //                 value={formData.email}
-        //                 placeholder={"Email"}
-        //                 className="input border border-gray-500 rounded-2xl w-full p-2 m-2 focus:border-sky-500 focus:ring-0 focus:outline-none"
-        //                 onChange={(e) => setFormData({...formData, email: e.target.value})}
-        //             />
-        //         </div>
-        //         <div className={"relative"}>
-        //             <div className={"flex flex-row w-50"}>
-        //                 <input
-        //                     type={showPassword ? "text" : "password"}
-        //                     value={formData.password}
-        //                     onChange={(e) => setFormData({...formData, password: e.target.value})}
-        //                     placeholder="*******"
-        //                     className="input border border-gray-500  rounded-2xl w-full p-2 m-2 focus:border-sky-500 focus:ring-0 focus:outline-none"
-        //                 />
-        //                 <button
-        //                     type="button"
-        //                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
-        //                     onClick={() => setShowPassword(!showPassword)}
-        //                 >
-        //                     {showPassword ? (
-        //                         <EyeOff className="size-5 text-base-content/40"></EyeOff>
-        //                     ) : (
-        //                         <Eye className="size-5 text-base-content/40"></Eye>
-        //                     )}
-        //                 </button>
-        //             </div>
-        //         </div>
-        //     </div>
-        //     <button className="m-2" type="submit">Submit</button>
-        // </form>
-        // </div>
     )
 }
 export default LoginPage

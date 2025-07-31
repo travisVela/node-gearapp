@@ -57,20 +57,16 @@ const HomePage = () => {
     };
 
     return (
-        <div className={"container"}>
-            <div className={"flex flex-row items-start justify-center p-2 w-screen h-lvh mt-2 "}>
+        <div className={"container mx-auto"}>
+            <div className={"flex flex-row items-start justify-center p-2  h-lvh mt-2 "}>
 
-                {/*column to set divide*/}
-                <div className="flex flex-row w-full justify-center h-3/4">
-
-                    {/*inventory column*/}
-                    <div className={"flex flex-col w-full"}>
-                        <CardDropdown />
-                    </div>
-
+                {/*inventory column*/}
+                <div className={"basis-full md:basis-3/5 "}>
+                    <CardDropdown />
                 </div>
+
                 {/*form column*/}
-                <div className="hidden container md:flex flex-col  justify-center items-center">
+                <div className="hidden container md:flex md:basis-2/5  justify-center items-center ">
                     <AddGearForm addGear={handleAddGear}/>
                 </div>
 
