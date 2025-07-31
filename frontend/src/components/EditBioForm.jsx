@@ -51,11 +51,8 @@ const EditBioForm = ({data, onSubmit}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
         onSubmit(formState)
-        if (isUsernameAvailable && !usernameError) {
-
-        }
-
     }
 
 return (

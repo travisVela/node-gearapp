@@ -27,7 +27,7 @@ export const addGear = async (req, res) => {
             type, brand, model, year, description, serial_number, owner_id
         })
 
-        res.status(201).json({add});
+        res.status(201).json(add);
 
     } catch (error) {
         console.log("Error in adding gear", error.message);

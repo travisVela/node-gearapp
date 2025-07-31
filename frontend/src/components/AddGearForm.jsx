@@ -5,10 +5,10 @@ import {motion} from "framer-motion";
 import {ArrowRight, Loader, Lock, LogIn, Mail} from "lucide-react";
 import {Link} from "react-router-dom";
 import {useGearStore} from "../stores/useGearStore.js";
+;
 
 
-
-const AddGearForm = () => {
+const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
     const [type, setType] = useState("")
     const [brand, setBrand] = useState("")
     const [model, setModel] = useState("")
@@ -16,14 +16,10 @@ const AddGearForm = () => {
     const [year, setYear] = useState("")
     const [description, setDescription] = useState("")
     const [loading, setIsLoading] = useState(false)
-    const { addGear} = useGearStore()
-    // console.log(loading)
-    useEffect(() =>{
+    const [formData, setFormData] = useState({type: '', brand: '', model: '', year: '', serial_number: '', description: ''});
+    // const [isOpen, setIsOpen] = useState(false)
 
-    }, [])
-
-
-
+    const {addGear} = useGearStore()
 
     // const options = [
     //     {value: 'guitar', label: 'guitar'},
@@ -39,42 +35,61 @@ const AddGearForm = () => {
     // }
     // const selectedType = type ? type : "Select"
 
+    const handleChange = async (e) => {
+        const {id, value} = e.target
+        // console.log(e.target.id)
+        setFormData(prevState => ({...prevState, [id]: value}));
+    }
 
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
-        if (brand) {
-            addGear(type, brand, model, serial_number, year, description);
+
+             const data = {type, brand, model, serial_number, year, description}
+        try {
+
+            setFormData(data)
+            if (isOpen) {
+
+                onSubmit(formData)
+                setOpen(false)
+            }
+
+
+            addGear(formData)
+
+        } catch (error) {
+            console.log(error)
+        }
             setType("")
             setBrand("")
             setModel("")
             setSerial("")
             setYear("")
             setDescription("")
-        }
-
-
     }
 
     return (
 
-        <div className='flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
-            <motion.div
-                className='sm:mx-auto sm:w-full sm:max-w-md'
-                initial={{opacity: 0, y: -20}}
-                animate={{opacity: 1, y: 0}}
-                transition={{duration: 0.8}}
-            >
-                <h2 className='mt-6 text-center text-2xl font-extrabold text-emerald-400'>Add gear</h2>
-            </motion.div>
+        <div className='flex flex-col justify-center py-2 sm:px-6 lg:px-8'>
+
 
             <motion.div
-                className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'
+                className='sm:mx-auto sm:w-full sm:max-w-md'
                 initial={{opacity: 0, y: 20}}
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.8, delay: 0.2}}
             >
-                <div className='bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10'>
+                <div className='bg-gray-800 py-4 px-4 shadow sm:rounded-lg sm:px-10'>
+                    <motion.div
+                        className='sm:mx-auto sm:w-full sm:max-w-md'
+                        initial={{opacity: 0, y: -20}}
+                        animate={{opacity: 1, y: 0}}
+                        transition={{duration: 0.8}}
+                    >
+                        <h2 className='mt-6 text-center text-2xl font-extrabold text-emerald-400'>Add gear</h2>
+                    </motion.div>
                     <form onSubmit={handleSubmit} className='space-y-6'>
                         <div>
                             <label htmlFor='type' className='block text-sm font-medium text-gray-300'>
@@ -88,8 +103,8 @@ const AddGearForm = () => {
                                     id={'type'}
                                     type='text'
                                     required
-                                    value={type}
-                                    onChange={(e) => setType(e.target.value)}
+                                    value={formData.type}
+                                    onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm
 									 placeholder-gray-400 focus:outline-none focus:ring-emerald-500
@@ -111,8 +126,8 @@ const AddGearForm = () => {
                                     id='brand'
                                     type='text'
                                     required
-                                    value={brand}
-                                    onChange={(e) => setBrand(e.target.value)}
+                                    value={formData.brand}
+                                    onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
                                     placeholder='brand'
@@ -131,8 +146,8 @@ const AddGearForm = () => {
                                     id='model'
                                     type='text'
                                     required
-                                    value={model}
-                                    onChange={(e) => setModel(e.target.value)}
+                                    value={formData.model}
+                                    onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
                                     placeholder='model'
@@ -150,8 +165,8 @@ const AddGearForm = () => {
                                 <input
                                     id='year'
                                     type='text'
-                                    value={year}
-                                    onChange={(e) => setYear(e.target.value)}
+                                    value={formData.year}
+                                    onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
                                     placeholder='year'
@@ -169,8 +184,8 @@ const AddGearForm = () => {
                                 <input
                                     id='serial_number'
                                     type='text'
-                                    value={serial_number}
-                                    onChange={(e) => setSerial(e.target.value)}
+                                    value={formData.serial_number}
+                                    onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
                                     placeholder='serial number'
@@ -188,8 +203,8 @@ const AddGearForm = () => {
                                 <textarea
                                     id='description'
                                     // type='description'
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
+                                    value={formData.description}
+                                    onChange={handleChange}
                                     className=' block h-24 w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
 									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
                                     placeholder='description'
@@ -207,6 +222,7 @@ const AddGearForm = () => {
 							 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2
 							  focus:ring-emerald-500 transition duration-150 ease-in-out disabled:opacity-50'
                             disabled={loading}
+                            onClick={handleSubmit}
                         >
                             {loading ? (
                                 <>
@@ -215,7 +231,7 @@ const AddGearForm = () => {
                                 </>
                             ) : (
                                 <>
-                                    <LogIn className='mr-2 h-5 w-5' aria-hidden='true'/>
+                                    <LogIn className='mr-2 h-5 w-5' aria-hidden='true'  />
                                     Add Gear
                                 </>
                             )}

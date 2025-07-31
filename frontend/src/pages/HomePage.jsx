@@ -1,11 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Pencil, Trash} from "lucide-react";
 
 import AddGearForm from "../components/AddGearForm.jsx";
-import Dialog from "../components/Dialog.jsx";
 import EditFormDialog from "../components/EditFormDialog.jsx";
 import {useGearStore} from "../stores/useGearStore.js";
-import Table from "../components/Table.jsx";
 import CardDropdown from "../components/CardDropdown.jsx";
 
 const HomePage = () => {
@@ -23,6 +20,10 @@ const HomePage = () => {
         getGear()
 
     }, [getGear]);
+
+     useEffect(() => {
+        gear
+    }, [gear]);
 
     useEffect(() => {
         if (isdropdownRefOpen) {
@@ -63,14 +64,13 @@ const HomePage = () => {
                 <div className="flex flex-row w-full justify-center h-3/4">
 
                     {/*inventory column*/}
-                    <div className={"flex flex-col "}>
+                    <div className={"flex flex-col w-full"}>
                         <CardDropdown />
                     </div>
 
-
                 </div>
                 {/*form column*/}
-                <div className="container h-lvh flex flex-col  justify-center items-center">
+                <div className="hidden container md:flex flex-col  justify-center items-center">
                     <AddGearForm addGear={handleAddGear}/>
                 </div>
 
@@ -80,9 +80,7 @@ const HomePage = () => {
                     initialData={formData}
                     ref={editGearRef}
                 />
-
             </div>
-
         </div>
     )
 }

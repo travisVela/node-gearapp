@@ -21,12 +21,15 @@ export const useGearStore = create((set, get) => ({
             toast.error(error?.response?.data?.message || "error getting gear")
         }
     },
-    addGear: async (type, brand, model, serial_number, year, description) => {
+    addGear: async (data) => {
+        console.log(data)
+        const {gear} = get()
 
         set({loading: true})
         try{
-            const res = await axiosInstance.post("/add-gear", {type, brand, model, serial_number, year, description})
-            console.log(res.body)
+            const res = await axiosInstance.post("/add-gear", data)
+            set({gear: [...gear, res.data]})
+
         } catch (error) {
             set({loading: false})
             console.log(error?.response)
@@ -36,10 +39,13 @@ export const useGearStore = create((set, get) => ({
     },
     deleteGear: async (id) => {
         set({loading: true})
+
         try {
 
-            const res = await axiosInstance.delete(`/delete-gear/${id}`)
-            console.log(res)
+            await axiosInstance.delete(`/delete-gear/${id}`)
+            set((state) => ({
+                gear: state.gear.filter((item) => item._id !== id)
+            }))
             toast.success("Item deleted")
             set({loading: false})
         } catch (error) {
@@ -54,6 +60,12 @@ export const useGearStore = create((set, get) => ({
 
             const res = await axiosInstance.put("/update-gear", data)
             toast.success(res.data?.message || "update")
+
+            set((state) => ({
+                gear: state.gear.map((item) =>
+                    item._id === data._id ? {...item, ...data} : item
+                )
+            }))
             set({loading: false})
         } catch (error) {
             set({loading: false})
