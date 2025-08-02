@@ -18,32 +18,35 @@ import CardDropdown from "./components/CardDropdown.jsx";
 
 const App = () => {
     const {user, checkAuth, checkingAuth} = useUserStore()
-    const [darkMode, setDarkMode] = useState(false)
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem('theme') || 'light';
+      });
     useEffect(() => {
         checkAuth()
     }, [checkAuth])
 
     useEffect(() => {
-        let theme = localStorage.getItem("theme")
-        if (!theme) {
-            theme = "light"
-            setDarkMode(false)
-            localStorage.setItem("theme", theme)
+
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
         }
-        setDarkMode(theme === "dark")
-    }, []);
+        // Save theme to local storage
+        localStorage.setItem('theme', theme);
+      }, [theme]);
+
 
     const toggleTheme = () => {
-
-        setDarkMode(!darkMode)
-    }
+        setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+      };
 
     if (checkingAuth) return <LoadingSpinner />
 
   return (
 
-      <div className={`${darkMode ? "dark" : ''} h-full bg-gradient-to-r from-blue-200 to-indigo-400 dark:from-gray-800 dark:to-black`}>
-          <Navbar toggleTheme={toggleTheme} dark={darkMode}/>
+      <div className={` h-full bg-gradient-to-r from-blue-200 to-indigo-400 dark:from-gray-800 dark:to-black`}>
+          <Navbar toggleTheme={toggleTheme} theme={theme}/>
           <Routes>
             <Route
                 path={"/"}

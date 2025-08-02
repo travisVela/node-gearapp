@@ -64,7 +64,7 @@ return (
             animate={{opacity: 1, y: 0}}
             transition={{duration: 0.8}}
         >
-            <h2 className='text-center text-2xl font-extrabold text-emerald-400'>Update Profile</h2>
+            <h2 className='text-center text-xl font-bold leading-none text-gray-900 dark:text-white'>Update Profile</h2>
         </motion.div>
 
         <motion.div
@@ -73,11 +73,11 @@ return (
             animate={{opacity: 1, y: 0}}
             transition={{duration: 0.8, delay: 0.2}}
         >
-            <div className='bg-gray-800 py-8 px-4 sm:rounded-lg sm:px-10'>
+            <div className='bg-white rounded-lg  p-8 dark:bg-gray-800  sm:py-4 px-4 m-2 sm:m-0 sm:rounded-lg sm:px-10 '>
                 <form onSubmit={handleSubmit} className='space-y-2'>
 
                     <div className={"flex flex-col justify-center items-start mx-1"}>
-                        <label htmlFor='usernam' className='block text-sm font-medium text-gray-300'>
+                        <label htmlFor='username' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                             Username
                         </label>
                         <div className='mt-1 relative rounded-md shadow-sm'>
@@ -93,10 +93,8 @@ return (
                                 onChange={handleChange}
                                 // onBlur={handleChange}
                                 onKeyUp={handleChange}
-                                className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm
-									 placeholder-gray-400 focus:outline-none focus:ring-emerald-500
-									 focus:border-emerald-500 sm:text-sm'
+                                className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                 placeholder='username'
                             />
                             {usernameError && <p style={{ color: 'red' }}>{usernameError}</p>}
@@ -106,7 +104,7 @@ return (
 
 
                     <div className={"mx-1"}>
-                        <label htmlFor='brand' className='block text-sm font-medium text-gray-300'>
+                        <label htmlFor='brand' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                             Bio
                         </label>
                         <div className='mt-1 relative rounded-md shadow-sm'>
@@ -118,8 +116,8 @@ return (
                                 // type='description'
                                 value={formState.bio || ''}
                                 onChange={handleChange}
-                                className=' block h-24 w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
+                                className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                 placeholder='bio'
                                 row={5}
                                 cols={40}
@@ -131,9 +129,9 @@ return (
                     <button
                         type='submit'
                         className='w-full flex justify-center py-2 px-4 border border-transparent
-							rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600
-							 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2
-							  focus:ring-emerald-500 transition duration-150 ease-in-out disabled:opacity-50'
+							rounded-md shadow-sm text-sm font-medium dark:text-white text-black/70 focus:outline-none focus:ring-2 focus:ring-offset-2
+							   transition duration-150 ease-in-out disabled:opacity-50'
+                        style={{backgroundColor: "goldenrod"}}
                         // disabled={!isUsernameAvailable}
                     >
                         {/*{loading ? (*/}

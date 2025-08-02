@@ -75,7 +75,7 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.8, delay: 0.2}}
             >
-                <div className='bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700 sm:py-4 px-4 sm:rounded-lg sm:px-10 '>
+                <div className='bg-white rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 sm:py-4 px-4 sm:rounded-lg sm:px-10 '>
                     <motion.div
                         className='sm:mx-auto sm:w-full sm:max-w-md'
                         initial={{opacity: 0, y: -20}}
@@ -100,7 +100,7 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                                     value={formData.type}
                                     onChange={handleChange}
                                     className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                     placeholder='type of gear'
                                 />
                             </div>
@@ -121,7 +121,7 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                                     value={formData.brand}
                                     onChange={handleChange}
                                     className=' block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                     placeholder='brand'
                                 />
                             </div>
@@ -141,7 +141,7 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                                     value={formData.model}
                                     onChange={handleChange}
                                     className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                     placeholder='model'
                                 />
                             </div>
@@ -160,7 +160,7 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                                     value={formData.year}
                                     onChange={handleChange}
                                     className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                     placeholder='year'
                                 />
                             </div>
@@ -179,7 +179,7 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                                     value={formData.serial_number}
                                     onChange={handleChange}
                                     className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                     placeholder='serial number'
                                 />
                             </div>
@@ -198,7 +198,7 @@ const AddGearForm = ({onSubmit, setOpen, isOpen}) => {
                                     value={formData.description}
                                     onChange={handleChange}
                                     className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                     placeholder='description'
                                     row={5}
                                     cols={40}

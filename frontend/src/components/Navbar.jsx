@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {LogOut, MessageSquare, Moon, Settings, Sun, User} from "lucide-react";
 import {useUserStore} from "../stores/useUserStore.js";
 
-const Navbar = ({toggleTheme, dark}) => {
+const Navbar = ({toggleTheme, theme}) => {
     const {logout} = useUserStore()
 
     const handleLogout = () => {
@@ -12,7 +12,7 @@ const Navbar = ({toggleTheme, dark}) => {
     }
 
     const handleThemeChange = () => {
-        console.log(dark)
+        console.log(theme)
         toggleTheme()
     }
 
@@ -34,8 +34,10 @@ const Navbar = ({toggleTheme, dark}) => {
                 <div className="hidden w-full md:block md:w-auto" id="navbar-default">
                     <ul className="font-medium flex flex-col justify-center items-center p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
-                            {dark ?  <Sun className={"cursor-pointer dark:text-white/50 dark:hover:text-white/90"} onClick={handleThemeChange}/>
-                                : <Moon className={"cursor-pointer text-black/50  hover:text-black/90"} onClick={handleThemeChange}/>
+                            {theme === 'dark' ?  <Sun className={"cursor-pointer text-white/50 hover:text-white/90"} onClick={handleThemeChange}/>
+                                : <Moon className={"cursor-pointer text-black/50  hover:text-black/90"}
+
+                                        onClick={handleThemeChange}/>
                             }
 
                         </li>
@@ -47,7 +49,7 @@ const Navbar = ({toggleTheme, dark}) => {
                             </Link>
                         </li>
                         <li>
-                            <button className="flex gap-2 items-center closeButton  dark:text-white hover:text-gray-700" onClick={handleLogout}>
+                            <button className="flex gap-2 items-center closeButton  " onClick={handleLogout}>
                                 <LogOut className="size-5 text-black/50 hover:text-black/90 dark:text-white/50 dark:hover:text-white/90">
                                     <span className="hidden sm:inline">Logout</span>
                                 </LogOut>

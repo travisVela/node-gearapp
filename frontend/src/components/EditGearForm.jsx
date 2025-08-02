@@ -58,7 +58,7 @@ const EditGearForm = ({data, onSubmit}) => {
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.8}}
             >
-                <h2 className='text-center text-2xl font-extrabold text-emerald-400'>Update gear</h2>
+                <h2 className='text-center text-xl font-bold leading-none text-gray-900 dark:text-white'>Update gear</h2>
             </motion.div>
 
             <motion.div
@@ -67,11 +67,11 @@ const EditGearForm = ({data, onSubmit}) => {
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.8, delay: 0.2}}
             >
-                <div className='bg-gray-800 py-4 px-4  sm:rounded-lg sm:px-10'>
+                <div className='bg-white   dark:bg-gray-800 text-black dark:text-white  py-4 px-4  sm:rounded-lg sm:px-10'>
                     <form onSubmit={handleSubmit} className='space-y-2'>
                         <div className={"flex flex-row w-full"}>
                             <div className={"flex flex-col justify-center items-start mx-1"}>
-                                <label htmlFor='type' className='block text-sm font-medium text-gray-300'>
+                                <label htmlFor='type' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                     Type
                                 </label>
                                 <div className='mt-1 relative rounded-md shadow-sm'>
@@ -85,17 +85,15 @@ const EditGearForm = ({data, onSubmit}) => {
 
                                         value={formState?.type || ''}
                                         onChange={handleChange}
-                                        className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm
-									 placeholder-gray-400 focus:outline-none focus:ring-emerald-500
-									 focus:border-emerald-500 sm:text-sm'
+                                        className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                         placeholder='type of gear'
                                     />
                                 </div>
                             </div>
 
                             <div className={"flex flex-col justify-center items-start mx-1"}>
-                                <label htmlFor='brand' className='block text-sm font-medium text-gray-300'>
+                                <label htmlFor='brand' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                     Brand
                                 </label>
                                 <div className='mt-1 relative rounded-md shadow-sm'>
@@ -109,8 +107,8 @@ const EditGearForm = ({data, onSubmit}) => {
 
                                         value={formState?.brand || ''}
                                         onChange={handleChange}
-                                        className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
+                                        className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                         placeholder='brand'
                                     />
                                 </div>
@@ -119,7 +117,7 @@ const EditGearForm = ({data, onSubmit}) => {
                         <div className={"flex flex-row w-full"}>
 
                         <div className={"flex flex-col justify-center items-start mx-1"}>
-                            <label htmlFor='brand' className='block text-sm font-medium text-gray-300'>
+                            <label htmlFor='brand' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                 Model
                             </label>
                             <div className='mt-1 relative rounded-md shadow-sm'>
@@ -132,14 +130,14 @@ const EditGearForm = ({data, onSubmit}) => {
 
                                     value={formState?.model || ''}
                                     onChange={handleChange}
-                                    className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
+                                    className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                     placeholder='model'
                                 />
                             </div>
                         </div>
                         <div className={"flex flex-col justify-center items-start mx-1"}>
-                            <label htmlFor='brand' className='block text-sm font-medium text-gray-300'>
+                            <label htmlFor='brand' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                 Year
                             </label>
                             <div className='mt-1 relative rounded-md shadow-sm'>
@@ -152,15 +150,15 @@ const EditGearForm = ({data, onSubmit}) => {
 
                                     value={formState?.year || ''}
                                     onChange={handleChange}
-                                    className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
+                                    className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                     placeholder='year'
                                 />
                             </div>
                         </div>
                             </div>
                         <div className={"mx-1"}>
-                            <label htmlFor='brand' className='block text-sm font-medium text-gray-300'>
+                            <label htmlFor='brand' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                 Serial Number
                             </label>
                             <div className='mt-1 relative rounded-md shadow-sm'>
@@ -173,14 +171,14 @@ const EditGearForm = ({data, onSubmit}) => {
                                     required
                                     value={formState?.serial_number || ''}
                                     onChange={handleChange}
-                                    className=' block w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
+                                    className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                     placeholder='serial number'
                                 />
                             </div>
                         </div>
                         <div className={"mx-1"}>
-                            <label htmlFor='brand' className='block text-sm font-medium text-gray-300'>
+                            <label htmlFor='brand' className='block text-sm font-medium text-gray-900 truncate dark:text-white'>
                                 Description
                             </label>
                             <div className='mt-1 relative rounded-md shadow-sm'>
@@ -192,8 +190,8 @@ const EditGearForm = ({data, onSubmit}) => {
                                     // type='description'
                                     value={formState?.description || ''}
                                     onChange={handleChange}
-                                    className=' block h-24 w-full px-3 py-2 pl-10 bg-gray-700 border border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
+                                    className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                     placeholder='description'
                                     row={5}
                                     cols={40}
@@ -205,10 +203,10 @@ const EditGearForm = ({data, onSubmit}) => {
                         <button
                             type='submit'
                             className='w-full flex justify-center py-2 px-4 border border-transparent
-							rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600
-							 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2
-							  focus:ring-emerald-500 transition duration-150 ease-in-out disabled:opacity-50'
+							rounded-md shadow-sm text-sm font-medium dark:text-white text-black/70 focus:outline-none focus:ring-2 focus:ring-offset-2
+							  transition duration-150 ease-in-out disabled:opacity-50'
                             // disabled={loading}
+                            style={{backgroundColor: "goldenrod"}}
                         >
                             {/*{loading ? (*/}
                             {/*    <>*/}

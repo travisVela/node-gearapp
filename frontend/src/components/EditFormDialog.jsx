@@ -23,7 +23,7 @@ const EditGearFormDialog = forwardRef(({onClose, initialData, children}, editGea
         <dialog
             ref={editGearRef}
             onClick={handleClick}
-            className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800  rounded-lg shadow-xl max-w-lg focus:outline-none`}
+            className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border border-gray-200  dark:bg-gray-800 dark:border-gray-700  rounded-lg shadow-xl max-w-lg focus:outline-none`}
             id={"editformdialog"}
         >
             <div>
@@ -42,22 +42,6 @@ const EditGearFormDialog = forwardRef(({onClose, initialData, children}, editGea
             </div>
         </dialog>
 
-        // <dialog
-        //     ref={editGearRef}
-        //     className="dialog-content flex flex-col justify-items-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl max-w-lg focus:outline-none bg-gray-800 z-50"
-        //     onClick={handleClick}
-        // >
-        //     <div>
-        //         {children}
-        //         <button className={"mt-4 text-sm"} onClick={handleClick}>Close</button>
-        //         <EditGearForm
-        //             data={initialData}
-        //             onSubmit={(updatedData) => {
-        //                 updateGear(updatedData)
-        //                 onClose();
-        //             }}/>
-        //     </div>
-        // </dialog>
 
     );
 

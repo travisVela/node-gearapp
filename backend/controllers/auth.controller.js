@@ -5,7 +5,9 @@ import dotenv from "dotenv";
 import Gear from "../models/gear.model.js";
 import {set} from "mongoose";
 
-dotenv.config({path: '../.env'})
+if (process.env.DEVELOPMENT) {
+    	dotenv.config()
+    }
 
 const generateTokens = (userId) => {
 	const accessToken = jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, {

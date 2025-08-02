@@ -137,7 +137,7 @@ const SignupPage = () => {
                                         onChange={handleChange}
                                         onKeyUp={handleChange}
                                         className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                         placeholder='email'
                                     />
                                     {emailError && <p style={{color: 'red'}}>{emailError}</p>}
@@ -163,7 +163,7 @@ const SignupPage = () => {
                                         onChange={handleChange}
                                         onKeyUp={handleChange}
                                         className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                         placeholder='username'
                                     />
                                     {usernameError && <p style={{color: 'red'}}>{usernameError}</p>}
@@ -194,7 +194,7 @@ const SignupPage = () => {
                                         value={formState?.password}
                                         onChange={handleChange}
                                         className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                         placeholder='password'
                                     />
                                 </div>
@@ -216,7 +216,7 @@ const SignupPage = () => {
                                         value={formState?.confirmPassword}
                                         onChange={handleChange}
                                         className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zonc-500 focus:border-zinc-500 sm:text-sm'
                                         placeholder='confirm password'
                                     />
                                 </div>
@@ -242,7 +242,7 @@ const SignupPage = () => {
                                         value={formState?.firstname}
                                         onChange={handleChange}
                                         className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                         placeholder='first name'
                                     />
                                 </div>
@@ -264,7 +264,7 @@ const SignupPage = () => {
                                         value={formState?.lastname}
                                         onChange={handleChange}
                                         className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                         placeholder='last name'
                                     />
                                 </div>
@@ -285,7 +285,7 @@ const SignupPage = () => {
                                     value={formState?.bio}
                                     onChange={handleChange}
                                     className='block w-full px-3 py-2 pl-10 border bg-gray-200 border-gray-100 dark:bg-gray-700  dark:border-gray-600
-									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm'
+									rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm'
                                     placeholder='bio'
                                     row={5}
                                     cols={40}
