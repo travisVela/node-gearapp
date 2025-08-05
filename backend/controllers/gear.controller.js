@@ -19,10 +19,21 @@ export const getGear = async (req, res) => {
     }
 }
 export const addGear = async (req, res) => {
+    let requestBody;
+	if (Buffer.isBuffer(req.body)) {
+		try {
+		  requestBody = JSON.parse(req.body.toString('utf8'));
+		} catch (error) {
+		  console.error('Error parsing buffer as JSON:', error);
+		  return res.status(400).send('Invalid JSON in request body.');
+		}
+	  } else {
+		requestBody = req.body; // Assuming it's already parsed if not a Buffer
+	  }
 
     try {
         const owner_id = req.user.id
-        const {type, brand, model, year, description, serial_number} = req.body
+        const {type, brand, model, year, description, serial_number} = requestBody
         const add = await Gear.create({
             type, brand, model, year, description, serial_number, owner_id
         })
@@ -35,9 +46,20 @@ export const addGear = async (req, res) => {
     }
 }
 export const updateGear = async (req, res) => {
+    let requestBody;
+	if (Buffer.isBuffer(req.body)) {
+		try {
+		  requestBody = JSON.parse(req.body.toString('utf8'));
+		} catch (error) {
+		  console.error('Error parsing buffer as JSON:', error);
+		  return res.status(400).send('Invalid JSON in request body.');
+		}
+	  } else {
+		requestBody = req.body; // Assuming it's already parsed if not a Buffer
+	  }
     try {
-        const update_info = req.body
-        const gear_to_update = await Gear.findById(req.body._id)
+        const update_info = requestBody
+        const gear_to_update = await Gear.findById(requestBody._id)
 
          if (!req.user) {
             return res.sendStatus(401)

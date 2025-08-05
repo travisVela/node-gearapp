@@ -29,13 +29,13 @@ const setCookies = (res, accessToken, refreshToken) => {
 	res.cookie("accessToken", accessToken, {
 		httpOnly: true, // prevent XSS attacks, cross site scripting attack
 		secure: process.env.NODE_ENV === "production",
-		sameSite: "strict", // prevents CSRF attack, cross-site request forgery attack
+		sameSite: "none", // prevents CSRF attack, cross-site request forgery attack
 		maxAge: 15 * 60 * 1000, // 15 minutes
 	});
 	res.cookie("refreshToken", refreshToken, {
 		httpOnly: true, // prevent XSS attacks, cross site scripting attack
 		secure: process.env.NODE_ENV === "production",
-		sameSite: "strict", // prevents CSRF attack, cross-site request forgery attack
+		sameSite: "none", // prevents CSRF attack, cross-site request forgery attack
 		maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 	});
 };
@@ -104,8 +104,19 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+	let requestBody;
+	if (Buffer.isBuffer(req.body)) {
+		try {
+		  requestBody = JSON.parse(req.body.toString('utf8'));
+		} catch (error) {
+		  console.error('Error parsing buffer as JSON:', error);
+		  return res.status(400).send('Invalid JSON in request body.');
+		}
+	  } else {
+		requestBody = req.body; // Assuming it's already parsed if not a Buffer
+	  }
 	try {
-		const { email, password } = req.body;
+		const { email, password } = requestBody;
 		const user = await User.findOne({ email });
 
 		if (user && (await user.comparePassword(password))) {
@@ -186,11 +197,22 @@ export const getProfile = async (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
+	let requestBody;
+	if (Buffer.isBuffer(req.body)) {
+		try {
+		  requestBody = JSON.parse(req.body.toString('utf8'));
+		} catch (error) {
+		  console.error('Error parsing buffer as JSON:', error);
+		  return res.status(400).send('Invalid JSON in request body.');
+		}
+	  } else {
+		requestBody = req.body; // Assuming it's already parsed if not a Buffer
+	  }
 	try {
 		let username_taken;
-		const username = req.body.username
+		const username = requestBody.username
 
-		if (req.user.username !== req.body.username) {
+		if (req.user.username !== requestBody.username) {
 			username_taken = await User.findOne({username})
 		}
 
@@ -200,10 +222,10 @@ export const updateProfile = async (req, res) => {
 
 		if (!username_taken) {
 			// const id = req.body._id
-			const user_update = await User.findById(req.body._id)
+			const user_update = await User.findById(requestBody._id)
 
 			user_update.username = username
-			user_update.bio = req.body.bio
+			user_update.bio = requestBody.bio
 			user_update.save()
 			res.status(200).json({"message": "Profile updated successfully"})
 		}

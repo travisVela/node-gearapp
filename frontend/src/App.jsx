@@ -18,6 +18,7 @@ import CardDropdown from "./components/CardDropdown.jsx";
 
 const App = () => {
     const {user, checkAuth, checkingAuth} = useUserStore()
+
     const [theme, setTheme] = useState(() => {
         return localStorage.getItem('theme') || 'light';
       });
