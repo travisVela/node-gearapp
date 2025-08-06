@@ -69,8 +69,11 @@ export const useUserStore = create((set, get) => ({
     logout: async () => {
         console.log("clicked logout")
         try {
+            localStorage.removeItem('refreshToken')
+            localStorage.removeItem('accessToken')
             set({user: null})
-            await axiosInstance.post("/auth/logout")
+            const res = await axiosInstance.post("/auth/logout")
+            console.log(res)
             toast.success("Logged out successfully")
         } catch (error) {
             toast.error(error?.response?.data?.message || "error checking auth")

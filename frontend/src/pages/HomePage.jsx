@@ -57,11 +57,11 @@ const HomePage = () => {
     };
 
     return (
-        <div className={"container mx-auto"}>
+        <div className={"container mx-auto "}>
             <div className={"flex flex-row items-start justify-center p-2 h-lvh mt-2"}>
 
                 {/*inventory column*/}
-                <div className={"basis-full md:basis-3/5 "}>
+                <div className={"basis-full md:basis-3/5"}>
                     <CardDropdown />
                 </div>
 

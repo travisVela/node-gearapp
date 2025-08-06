@@ -7,11 +7,15 @@ const Navbar = ({toggleTheme, theme}) => {
     const {logout} = useUserStore()
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const mobileMenuRef = useRef(null)
+    const buttonRef = useRef(null)
+
 
     useEffect(() => {
         let handler = (e) => {
-            if (!mobileMenuRef.current?.contains(e.target)) {
+            console.log(e.target)
+            if ( e.target !== buttonRef.current) {
                 setMobileMenuOpen(false)
+
             }
         }
         document.addEventListener('mousedown', handler)
@@ -22,12 +26,10 @@ const Navbar = ({toggleTheme, theme}) => {
     });
 
     const handleLogout = () => {
-        console.log("logout")
         logout()
     }
 
     const handleThemeChange = () => {
-        console.log(theme)
         toggleTheme()
     }
 
@@ -53,10 +55,10 @@ const Navbar = ({toggleTheme, theme}) => {
                 <div className={"flex md:hidden"}>
 
                     <button id="dropdownButton" data-dropdown-toggle="dropdown"
-                            className="inline-block closeButton text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700  focus:outline-none   rounded-lg text-sm p-1.5"
+                            className="inline-block cursor-pointer closeButton text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700  focus:outline-none   rounded-lg text-sm p-1.5"
                             type="button"
                             onClick={toggleMobileMenu}
-
+                            ref={buttonRef}
                         // onCancel={() => setisdropdownRefOpen(false)}
                     >
                         <span className="sr-only">Open dropdown</span>
@@ -70,7 +72,7 @@ const Navbar = ({toggleTheme, theme}) => {
                 </div>
 
 
-                <div  className={`${mobileMenuOpen ? "flex flex-row justify-end z-50 absolute transform translate-y-18" : "hidden"} w-full md:block md:w-auto`} id="navbar-default">
+                <div  className={`${mobileMenuOpen ? "flex flex-row justify-end z-50 absolute transform translate-y-20 -translate-x-8" : "hidden"} w-full md:block md:w-auto`} id="navbar-default">
 
                     <ul ref={mobileMenuRef} className="font-medium flex flex-col justify-center items-center p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
