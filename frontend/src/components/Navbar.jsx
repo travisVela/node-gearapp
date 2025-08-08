@@ -6,16 +6,15 @@ import React, {useEffect, useRef, useState} from "react";
 const Navbar = ({toggleTheme, theme}) => {
     const {logout} = useUserStore()
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const mobileMenuRef = useRef(null)
+    const mobileMenuRef = useRef()
     const buttonRef = useRef(null)
 
 
     useEffect(() => {
         let handler = (e) => {
             console.log(e.target)
-            if ( e.target !== buttonRef.current) {
+            if (!mobileMenuRef.current.contains(e.target) && buttonRef.current !== e.target) {
                 setMobileMenuOpen(false)
-
             }
         }
         document.addEventListener('mousedown', handler)
