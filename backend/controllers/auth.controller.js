@@ -3,236 +3,363 @@ import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import Gear from "../models/gear.model.js";
-import {set} from "mongoose";
+import { set } from "mongoose";
+import crypto from "crypto";
+import emailjs from "@emailjs/nodejs";
+import bcryptjs from "bcryptjs";
 
 if (process.env.DEVELOPMENT) {
-    	dotenv.config()
-    }
+  dotenv.config();
+}
 
 const generateTokens = (userId) => {
-	const accessToken = jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, {
-		expiresIn: "15m",
-	});
+  const accessToken = jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "15m",
+  });
 
-	const refreshToken = jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET, {
-		expiresIn: "7d",
-	});
+  const refreshToken = jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: "7d",
+  });
 
-	return { accessToken, refreshToken };
+  return { accessToken, refreshToken };
 };
 
 const storeRefreshToken = async (userId, refreshToken) => {
-	await redis.set(`refresh_token:${userId}`, refreshToken, "EX", 7 * 24 * 60 * 60); // 7days
+  await redis.set(
+    `refresh_token:${userId}`,
+    refreshToken,
+    "EX",
+    7 * 24 * 60 * 60
+  ); // 7days
 };
 
 const setCookies = (res, accessToken, refreshToken) => {
-	res.cookie("accessToken", accessToken, {
-		httpOnly: true, // prevent XSS attacks, cross site scripting attack
-		secure: process.env.NODE_ENV === "production",
-		sameSite: "none", // prevents CSRF attack, cross-site request forgery attack
-		maxAge: 15 * 60 * 1000, // 15 minutes
-	});
-	res.cookie("refreshToken", refreshToken, {
-		httpOnly: true, // prevent XSS attacks, cross site scripting attack
-		secure: process.env.NODE_ENV === "production",
-		sameSite: "none", // prevents CSRF attack, cross-site request forgery attack
-		maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-	});
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true, // prevent XSS attacks, cross site scripting attack
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // prevents CSRF attack, cross-site request forgery attack
+    maxAge: 15 * 60 * 1000, // 15 minutes
+  });
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true, // prevent XSS attacks, cross site scripting attack
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // prevents CSRF attack, cross-site request forgery attack
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  });
 };
 export const findUsername = async (req, res) => {
-	try {
-		const {username} = req.params
-		const user = await User.findOne({username})
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({ username });
 
-		if (user) {
-			return res.status(200).json({exists: true, message: "Username is already taken"})
-		} else {
-			return res.status(200).json({exists: false, message: "Username available"})
-		}
-
-	} catch (error) {
-		console.error('Error checking username:', error);
-    	return res.status(500).json({ message: 'Server error.' });
-	}
-}
+    if (user) {
+      return res
+        .status(200)
+        .json({ exists: true, message: "Username is already taken" });
+    } else {
+      return res
+        .status(200)
+        .json({ exists: false, message: "Username available" });
+    }
+  } catch (error) {
+    console.error("Error checking username:", error);
+    return res.status(500).json({ message: "Server error." });
+  }
+};
 export const findEmail = async (req, res) => {
-	try {
-		const {email} = req.params
-		const user = await User.findOne({email})
+  try {
+    const { email } = req.params;
+    const user = await User.findOne({ email });
 
-		if (user) {
-			return res.status(200).json({exists: true, message: "Email is already taken"})
-		} else {
-			return res.status(200).json({exists: false, message: "Email available"})
-		}
-
-	} catch (error) {
-		console.error('Error checking username:', error);
-    	return res.status(500).json({ message: 'Server error.' });
-	}
-}
+    if (user) {
+      return res
+        .status(200)
+        .json({ exists: true, message: "Email is already taken" });
+    } else {
+      return res
+        .status(200)
+        .json({ exists: false, message: "Email available" });
+    }
+  } catch (error) {
+    console.error("Error checking username:", error);
+    return res.status(500).json({ message: "Server error." });
+  }
+};
 
 export const signup = async (req, res) => {
+  console.log(req.body);
+  let requestBody;
+  if (Buffer.isBuffer(req.body)) {
+    try {
+      requestBody = JSON.parse(req.body.toString("utf8"));
+    } catch (error) {
+      console.error("Error parsing buffer as JSON:", error);
+      return res.status(400).send("Invalid JSON in request body.");
+    }
+  } else {
+    requestBody = req.body; // Assuming it's already parsed if not a Buffer
+  }
+  const { email, username, password, firstname, lastname, bio } = requestBody;
 
-	const { email, username, password, firstname, lastname, bio } = req.body;
-	try {
-		const userExists = await User.findOne({ email });
-		console.log(userExists)
+  try {
+    const userExists = await User.findOne({ email });
+    console.log(userExists);
 
-		if (userExists) {
-			return res.status(400).json({ message: "User already exists" });
-		}
-		const user = await User.create({ username, email, password, firstname, lastname, bio });
+    if (userExists) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
-		// authenticate
-		const { accessToken, refreshToken } = generateTokens(user._id);
-		await storeRefreshToken(user._id, refreshToken);
+    const hashedPassword = await bcryptjs.hash(password, 10);
 
-		setCookies(res, accessToken, refreshToken);
+    const user = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+      firstname,
+      lastname,
+      bio,
+    });
 
-		res.status(201).json({
-			_id: user._id,
-			username: user.username,
-			email: user.email,
-			role: user.role,
+    // authenticate
+    const { accessToken, refreshToken } = generateTokens(user._id);
+    // await storeRefreshToken(user._id, refreshToken);
 
-		});
-	} catch (error) {
-		console.log("Error in signup controller", error.message);
-		res.status(500).json({ message: error.message });
-	}
+    setCookies(res, accessToken, refreshToken);
+
+    res.status(201).json({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    });
+  } catch (error) {
+    console.log("Error in signup controller", error.message);
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const login = async (req, res) => {
-	let requestBody;
-	if (Buffer.isBuffer(req.body)) {
-		try {
-		  requestBody = JSON.parse(req.body.toString('utf8'));
-		} catch (error) {
-		  console.error('Error parsing buffer as JSON:', error);
-		  return res.status(400).send('Invalid JSON in request body.');
-		}
-	  } else {
-		requestBody = req.body; // Assuming it's already parsed if not a Buffer
-	  }
-	try {
-		const { email, password } = requestBody;
-		const user = await User.findOne({ email });
+  let requestBody;
 
-		if (user && (await user.comparePassword(password))) {
-			const { accessToken, refreshToken } = generateTokens(user._id);
-			await storeRefreshToken(user._id, refreshToken);
-			setCookies(res, accessToken, refreshToken);
+  if (Buffer.isBuffer(req.body)) {
+    try {
+      requestBody = JSON.parse(req.body.toString("utf8"));
+    } catch (error) {
+      console.error("Error parsing buffer as JSON:", error);
+      return res.status(400).send("Invalid JSON in request body.");
+    }
+  } else {
+    requestBody = req.body;
+  }
+  try {
+    const { email, password } = requestBody;
+    const user = await User.findOne({ email });
 
-			res.json({
-				_id: user._id,
-				name: user.name,
-				email: user.email,
-				role: user.role,
-			});
-		} else {
-			res.status(400).json({ message: "Invalid email or password" });
-		}
-	} catch (error) {
-		console.log("Error in login controller", error.message);
-		res.status(500).json({ message: error.message });
-	}
+    if (user && (await user.comparePassword(password))) {
+      const { accessToken, refreshToken } = generateTokens(user._id);
+      //   await storeRefreshToken(user._id, refreshToken);
+      setCookies(res, accessToken, refreshToken);
+
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      });
+    } else {
+      res.status(400).json({ message: "Invalid email or password" });
+    }
+  } catch (error) {
+    console.log("Error in login controller", error.message);
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const logout = async (req, res) => {
-	try {
-		const refreshToken = req.cookies.refreshToken;
-		if (refreshToken) {
-			const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-			await redis.del(`refresh_token:${decoded.userId}`);
-		}
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (refreshToken) {
+      const decoded = jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET
+      );
+      //   await redis.del(`refresh_token:${decoded.userId}`);
+    }
 
-		res.clearCookie("accessToken");
-		res.clearCookie("refreshToken");
-		res.json({ message: "Logged out successfully" });
-	} catch (error) {
-		console.log("Error in logout controller", error.message);
-		res.status(500).json({ message: "Server error", error: error.message });
-	}
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      // maxAge: 15 * 60 * 1000,
+    });
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      // maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    res.json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.log("Error in logout controller", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 };
 
 // this will refresh the access token
 export const refreshToken = async (req, res) => {
-	try {
-		const refreshToken = req.cookies.refreshToken;
+  try {
+    const refreshToken = req.cookies.refreshToken;
 
-		if (!refreshToken) {
-			return res.status(401).json({ message: "No refresh token provided" });
-		}
+    if (!refreshToken) {
+      return res.status(401).json({ message: "No refresh token provided" });
+    }
 
-		const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-		const storedToken = await redis.get(`refresh_token:${decoded.userId}`);
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    // const storedToken = await redis.get(`refresh_token:${decoded.userId}`);
 
-		if (storedToken !== refreshToken) {
-			return res.status(401).json({ message: "Invalid refresh token" });
-		}
+    // if (storedToken !== refreshToken) {
+    //   return res.status(401).json({ message: "Invalid refresh token" });
+    // }
 
-		const accessToken = jwt.sign({ userId: decoded.userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+    const accessToken = jwt.sign(
+      { userId: decoded.userId },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
 
-		res.cookie("accessToken", accessToken, {
-			httpOnly: true,
-			secure: process.env.NODE_ENV === "production",
-			sameSite: "strict",
-			maxAge: 15 * 60 * 1000,
-		});
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000,
+    });
 
-		res.json({ message: "Token refreshed successfully" });
-	} catch (error) {
-		console.log("Error in refreshToken controller", error.message);
-		res.status(500).json({ message: "Server error", error: error.message });
-	}
+    res.json({ message: "Token refreshed successfully" });
+  } catch (error) {
+    console.log("Error in refreshToken controller", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 };
 
 export const getProfile = async (req, res) => {
-	try {
-		res.json(req.user);
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error: error.message });
-	}
+  try {
+    res.json(req.user);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 };
 
 export const updateProfile = async (req, res) => {
-	let requestBody;
-	if (Buffer.isBuffer(req.body)) {
-		try {
-		  requestBody = JSON.parse(req.body.toString('utf8'));
-		} catch (error) {
-		  console.error('Error parsing buffer as JSON:', error);
-		  return res.status(400).send('Invalid JSON in request body.');
-		}
-	  } else {
-		requestBody = req.body; // Assuming it's already parsed if not a Buffer
-	  }
-	try {
-		let username_taken;
-		const username = requestBody.username
+  let requestBody;
+  if (Buffer.isBuffer(req.body)) {
+    try {
+      requestBody = JSON.parse(req.body.toString("utf8"));
+    } catch (error) {
+      console.error("Error parsing buffer as JSON:", error);
+      return res.status(400).send("Invalid JSON in request body.");
+    }
+  } else {
+    requestBody = req.body; // Assuming it's already parsed if not a Buffer
+  }
+  try {
+    let username_taken;
+    const username = requestBody.username;
 
-		if (req.user.username !== requestBody.username) {
-			username_taken = await User.findOne({username})
-		}
+    if (req.user.username !== requestBody.username) {
+      username_taken = await User.findOne({ username });
+    }
 
-		if (username_taken) {
-			return res.status(400).json({"message": "username taken"})
-		}
+    if (username_taken) {
+      return res.status(400).json({ message: "username taken" });
+    }
 
-		if (!username_taken) {
-			// const id = req.body._id
-			const user_update = await User.findById(requestBody._id)
+    if (!username_taken) {
+      // const id = req.body._id
+      const user_update = await User.findById(requestBody._id);
 
-			user_update.username = username
-			user_update.bio = requestBody.bio
-			user_update.save()
-			res.status(200).json({"message": "Profile updated successfully"})
-		}
+      user_update.username = username;
+      user_update.bio = requestBody.bio;
+      user_update.save();
+      res.status(200).json({ message: "Profile updated successfully" });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: error.message || "server error" });
+  }
+};
 
-	} catch (error) {
-		console.log(error.message)
-		res.status(500).json({ message: error.message || 'server error' });
-	}
-}
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
 
+  emailjs.init({
+    publicKey: process.env.PUBLIC_KEY,
+    privateKey: process.env.PRIVATE_KEY,
+  });
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+    const resetToken = crypto.randomBytes(20).toString("hex");
+    const resetTokenExpiresIn = Date.now() + 10 * 60 * 1000;
+
+    // SAVE TOKEN IN DB
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpiresAt = resetTokenExpiresIn;
+    await user.save();
+
+    const templateParams = {
+      name: user.firstname,
+      email: user.email,
+      link: `${process.env.CLIENT_URL}/reset-password/${resetToken}`,
+    };
+
+    emailjs
+      .send(process.env.SERVICE_ID, process.env.TEMPLATE_ID, templateParams)
+      .then((response) => {
+        console.log("Success", response);
+      })
+      .catch((error) => {
+        console.log("failed", error);
+      });
+  } catch (error) {
+    console.log("error in reset password", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password, confirmPassword } = req.body;
+
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpiresAt: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ error: "Invalid or expired reset token!!" });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: "Passwords do not match!!" });
+    }
+
+    const hashedPassword = await bcryptjs.hash(password, 10);
+
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpiresAt = undefined;
+
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successful" });
+  } catch (error) {
+    console.log("Error in login controller", error.message);
+    res.status(500).json({ message: error.message });
+  }
+};

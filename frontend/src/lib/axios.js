@@ -3,9 +3,9 @@ import axios from "axios";
 export const axiosInstance = axios.create({
   baseURL:
     import.meta.env.MODE === "development"
-      ? import.meta.env.VITE_AWS_API
+      ? import.meta.env.VITE_BASE_URL
       : import.meta.env.VITE_AWS_API,
-  withCredentials: true
+  withCredentials: true,
 });
 
 // axiosInstance.interceptors.request.use((config) => {
@@ -16,5 +16,3 @@ export const axiosInstance = axios.create({
 // }, error => {
 //   return Promise.reject(error)
 // })
-
-
