@@ -7,6 +7,7 @@ import { set } from "mongoose";
 import crypto from "crypto";
 import emailjs from "@emailjs/nodejs";
 import bcryptjs from "bcryptjs";
+import { uploadToS3, getImageSignedURL } from "../lib/s3.js";
 
 if (process.env.DEVELOPMENT) {
   dotenv.config();
@@ -247,6 +248,48 @@ export const getProfile = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
+};
+
+export const addProfilePic = async (req, res) => {
+  const base64Data = req.body.file.replace(
+    /^data:\w+\/[a-zA-Z+\-. ]+;base64,/,
+    ""
+  );
+  const file = Buffer.from(base64Data, "base64");
+  const type = req.body.type;
+  console.log(type);
+
+  const userId = req.user._id;
+  if (!file || !userId)
+    return res.status(400).json({ message: "Bad upload request" });
+
+  const { error, key } = await uploadToS3({ file, userId, type });
+
+  console.log(key);
+
+  if (error) {
+    return res.status(500).json({ message: error.message });
+  }
+
+  if (key) {
+    const signedUrl = await getImageSignedURL(process.env.BUCKET, key)
+      .then((url) => {
+        return url;
+      })
+      .catch((error) => {
+        console.log("Failed to get image url", error);
+      });
+
+    await User.findByIdAndUpdate(
+      userId,
+      { profilePic: signedUrl },
+      { new: true }
+    );
+  }
+
+  return res
+    .status(201)
+    .json({ key: key, message: "Profile pic uploaded successfully" });
 };
 
 export const updateProfile = async (req, res) => {

@@ -48,7 +48,7 @@ export const useUserStore = create((set, get) => ({
 
     try {
       const res = await axiosInstance.post("/auth/login", { email, password });
-      console.log(res);
+
       toast.success("Logged in successfully");
       set({ user: res.data, loading: false });
     } catch (error) {
@@ -109,6 +109,20 @@ export const useUserStore = create((set, get) => ({
       throw error;
     }
   },
+  addProfilePic: async (data) => {
+    set({ loading: true });
+    console.log(data);
+    try {
+      const res = await axiosInstance.post("/auth/addProfilePic", data);
+
+      toast.success(res.data.message);
+      set({ loading: false });
+    } catch (error) {
+      console.log(error);
+      set({ loading: false });
+      toast.error(error.message);
+    }
+  },
   findUsername: async (newUsername) => {
     set({ loading: true });
     try {
@@ -139,7 +153,7 @@ export const useUserStore = create((set, get) => ({
       const res = await axiosInstance.post("/auth/forgot-password", { email });
       console.log(res);
       toast.success("Email sent");
-      set({ loading: false, message: response.data.message });
+      set({ loading: false, message: res.data.message });
     } catch (error) {
       set({ loading: false });
       console.log(error);

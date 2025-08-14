@@ -8,7 +8,9 @@ import { connectDB } from "./lib/db.js";
 import authRoutes from "./routers/auth.routes.js";
 import gearRoutes from "./routers/gear.routes.js";
 
-dotenv.config();
+if (process.env.DEVELOPMENT) {
+  dotenv.config();
+}
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -34,4 +36,6 @@ if (process.env.DEVELOPMENT) {
     connectDB();
   });
 }
-// export const handler = serverless(app);
+
+connectDB();
+export const handler = serverless(app);

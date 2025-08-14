@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       lowercase: true,
     },
+    profilePic: {
+      type: String,
+      default: "",
+    },
     gear: [
       {
         quantity: {
